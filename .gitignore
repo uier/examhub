@@ -9,3 +9,8 @@ node_modules/
 
 # build output
 dist/
+
+# log
+npm-debug.log
+request.log
+error.log
