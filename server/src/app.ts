@@ -1,22 +1,18 @@
 import express from 'express';
 import { requestLogger, errorLogger } from './middlewares/logger';
+import router from './routes';
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 app.use(requestLogger);
-
-app.get('/', (req, res) => {
-  res.send('The server is working!');
-});
-
 app.use(errorLogger);
 
-app.listen(port, () => {
-  console.log(`server is listening on ${port}`);
-});
+app.use('/api', router);
+
+app.listen(port);
 
 module.exports = app;

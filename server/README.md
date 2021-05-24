@@ -1,5 +1,10 @@
 # Server
 
+Run dev server
+```shell
+npm run start
+```
+
 ## Dependencies 
 - **node.js / express** to build the web server.
 - **winston / express-winston** as logger.
