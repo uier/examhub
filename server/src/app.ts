@@ -9,12 +9,13 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(requestLogger);
-app.use(errorLogger);
-
 db.init();
 
+app.use(requestLogger);
+
 app.use('/api', router);
+
+app.use(errorLogger);
 
 app.listen(port);
 

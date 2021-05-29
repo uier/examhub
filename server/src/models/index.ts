@@ -1,4 +1,5 @@
 import mysql from 'mysql';
+import auth from './auth';
 
 export const pool = mysql.createPool({
   connectionLimit: 10,
@@ -14,8 +15,8 @@ CREATE TABLE if not exists user (
   user_id varchar(32) not null,
   name    varchar(16) not null,
   email   varchar(40) not null,
-  role    numeric(1, 0) check (role >= 0 and role <= 3),
-  contribution  int not null,
+  role    numeric(1, 0) check (role >= 0 and role <= 2) default 2,
+  contribution  int not null default 0,
   create_time   datetime not null,
   password      varchar(32) not null,
   primary key (user_id)
@@ -27,4 +28,5 @@ export const db = {
       if (error) throw error;
     });
   },
+  auth,
 };
