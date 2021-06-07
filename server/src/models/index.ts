@@ -1,4 +1,4 @@
-import mysql from 'mysql';
+import mysql from 'mysql2';
 import auth from './auth';
 
 export const pool = mysql.createPool({
