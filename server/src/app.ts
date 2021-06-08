@@ -1,6 +1,6 @@
 import express from 'express';
 import { requestLogger, errorLogger } from './middlewares/logger';
-import { db } from './models';
+import db from './models';
 import router from './routes';
 
 const app = express();

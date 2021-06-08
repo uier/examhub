@@ -1,0 +1,35 @@
+swagger: "2.0"
+info:
+  title: "ExamHub API"
+  description: "師大資工考古題系統 API"
+  version: "0.1.0"
+host: "localhost:3000"
+basePath: "/api"
+tags:
+- name: "User"
+  description: "使用者資訊"
+paths:
+  "/users":
+    get:
+      tags:
+      - User
+      summary: "所有使用者資訊"
+      description: "回傳一個陣列包含所有的使用者及其資訊"
+      responses:
+        '200':
+          description: "成功，物件包含使用者 id、使用者名稱、電子信箱、貢獻值、帳號成立時間"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                userId:
+                  type: "number"
+                name:
+                  type: "string"
+                email:
+                  type: "string"
+                contribution:
+                  type: "number"
+                createTime:
+                  type: "string"

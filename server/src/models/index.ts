@@ -1,5 +1,6 @@
 import mysql from 'mysql2';
 import auth from './auth';
+import user from './user';
 import schema from './schema';
 
 export const pool = mysql.createPool({
@@ -11,7 +12,7 @@ export const pool = mysql.createPool({
   port: Number(process.env.DB_PORT),
 });
 
-export const db = {
+export default {
   init: () => {
     schema.forEach((s) => {
       pool.query(s, (error) => {
@@ -20,4 +21,5 @@ export const db = {
     });
   },
   auth,
+  user,
 };
