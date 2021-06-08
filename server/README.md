@@ -18,6 +18,8 @@ npm run start
 - **mysql2** as database client.
 - **dotenv** to import environment variables.
 - **dayjs** to handle datetime object.
+- **swagger-ui-express** to generate document page.
+- **yamljs** to load yaml file (swagger file).
 
 ## devDependencies
 - **nodemon** to hot reload the server.
