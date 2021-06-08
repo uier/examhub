@@ -13,7 +13,7 @@ router.post('/', async (req, res, next) => {
     const newUser = {
       name,
       email,
-      create_time: dayjs().format(),
+      createTime: dayjs().format(),
       password: hash(process.env.SECRET, password),
     };
     await db.auth.signUpNewUser(newUser);

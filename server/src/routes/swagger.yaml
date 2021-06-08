@@ -29,6 +29,8 @@ paths:
                   type: "string"
                 email:
                   type: "string"
+                role:
+                  type: "number"
                 contribution:
                   type: "number"
                 createTime:
