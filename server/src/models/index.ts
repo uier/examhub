@@ -1,5 +1,6 @@
 import mysql from 'mysql2';
 import auth from './auth';
+import schema from './schema';
 
 export const pool = mysql.createPool({
   connectionLimit: 10,
@@ -10,22 +11,12 @@ export const pool = mysql.createPool({
   port: Number(process.env.DB_PORT),
 });
 
-const initSQL = `
-CREATE TABLE if not exists user (
-  user_id varchar(32) not null,
-  name    varchar(16) not null,
-  email   varchar(40) not null,
-  role    numeric(1, 0) check (role >= 0 and role <= 2) default 2,
-  contribution  int not null default 0,
-  create_time   datetime not null,
-  password      varchar(32) not null,
-  primary key (user_id)
-)`;
-
 export const db = {
   init: () => {
-    pool.query(initSQL, (error) => {
-      if (error) throw error;
+    schema.forEach((s) => {
+      pool.query(s, (error) => {
+        if (error) throw error;
+      });
     });
   },
   auth,

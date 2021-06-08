@@ -17,10 +17,9 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const {
-      userId, name, email, password,
+      name, email, password,
     } = req.body;
     const newUser = {
-      user_id: hash(process.env.SECRET, userId),
       name,
       email,
       create_time: dayjs().format(),
