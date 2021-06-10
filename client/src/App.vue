@@ -1,19 +1,19 @@
 <template>
-  <img src="./assets/logo.png">
-  <div>
-    <p>
-      If Element Plus is successfully added to this project, you'll see an
-      <code v-text="'<el-button>'"></code>
-      below
-    </p>
-    <el-button type="primary">el-button</el-button>
-  </div>
+  <el-container>
+    <Header />
+    <el-main>
+      <router-view />
+    </el-main>
+    <el-footer></el-footer>
+  </el-container>
 </template>
 
 <script>
+import Header from '@/components/Header.vue';
 
 export default {
   name: 'App',
+  components: { Header },
 };
 </script>
 
@@ -22,8 +22,10 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
 }
 </style>
