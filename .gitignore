@@ -7,6 +7,9 @@ node_modules/
 # dotenv environment variables file
 .env
 
+# google oauth2.0 secret
+oauth2.keys.json
+
 # build output
 dist/
 
