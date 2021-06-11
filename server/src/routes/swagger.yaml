@@ -8,11 +8,13 @@ basePath: "/api"
 tags:
 - name: "User"
   description: "使用者資訊"
+- name: "Auth"
+  description: "驗證使用者"
 paths:
   "/users":
     get:
       tags:
-      - User
+      - "User"
       summary: "所有使用者資訊"
       description: "回傳一個陣列包含所有的使用者及其資訊"
       responses:
@@ -35,3 +37,39 @@ paths:
                   type: "number"
                 createTime:
                   type: "string"
+  "/users/me":
+    get:
+      tags:
+      - "User"
+      summary: "自己的資訊"
+      description: "回傳一個物件包含請求者的使用者資訊"
+      responses:
+        '200':
+          description: "成功，物件包含使用者 id、使用者名稱"
+          schema:
+            type: "object"
+            properties:
+              userId:
+                type: "number"
+              name:
+                type: "string"
+  "/auth/google":
+    get:
+      tags:
+      - "Auth"
+      summary: "透過 Google OAuth 2.0 登入"
+      description: "開啟此頁面後將重新導向 Google 登入"
+      responses:
+        '302':
+          description: "登入成功將重新導向回首頁 ('/')，失敗則重新導向回登入畫面 ('/login?err=true')"
+  "/auth/logout":
+    get:
+      tags:
+      - "Auth"
+      summary: "登出"
+      description: "將使用者登出、清除 session"
+      responses:
+        '200':
+          description: "成功"
+        '500':
+          description: "失敗，伺服器發生未知錯誤"
