@@ -2,7 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import { requestLogger, errorLogger } from './middlewares/logger';
-import db from './models';
+import model from './models';
 import router from './routes';
 
 const app = express();
@@ -11,14 +11,17 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
-  secret: 'cats',
+  secret: 'secret',
   resave: false,
   saveUninitialized: true,
+  cookie: {
+    expires: new Date(Date.now() + (30 * 86400 * 1000)),
+  },
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-db.init();
+model.initDB();
 
 app.use(requestLogger);
 

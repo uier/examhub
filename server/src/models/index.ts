@@ -1,5 +1,4 @@
 import mysql from 'mysql2';
-import auth from './auth';
 import user from './user';
 import schema from './schema';
 
@@ -13,13 +12,14 @@ export const pool = mysql.createPool({
 });
 
 export default {
-  init: () => {
+  // initialize db schema with prepared sql queries
+  initDB: () => {
     schema.forEach((s) => {
       pool.query(s, (error) => {
         if (error) throw error;
       });
     });
   },
-  auth,
+  // export the models below
   user,
 };

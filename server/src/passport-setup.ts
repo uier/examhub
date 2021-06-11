@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
+import { Express } from 'express';
 import fs from 'fs';
 import path from 'path';
 import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Profile, Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import model from './models';
 
 interface OAuth2WebKeys {
   client_id: string
@@ -20,11 +22,16 @@ if (!fs.existsSync(keyPath)) throw new Error('missing oauth2.keys.json');
 const keys: OAuth2WebKeys = require(keyPath).web;
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.userId);
 });
 
-passport.deserializeUser((user: any, done) => {
-  done(null, user);
+passport.deserializeUser(async (userId: Express.User['userId'], done) => {
+  try {
+    const [rows] = await model.user.getUserById(userId);
+    done(null, rows[0]);
+  } catch (err) {
+    done(err, false);
+  }
 });
 
 passport.use(new GoogleStrategy({
@@ -32,4 +39,11 @@ passport.use(new GoogleStrategy({
   clientSecret: keys.client_secret,
   callbackURL: keys.redirect_uris[0],
 },
-((accessToken, refreshToken, profile, done) => done(null, profile))));
+(async (accessToken, refreshToken, profile: Profile, done) => {
+  try {
+    const user = await model.user.findOrCreate(profile._json);
+    return done(null, user);
+  } catch (err) {
+    return done(err);
+  }
+})));

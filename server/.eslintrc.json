@@ -22,6 +22,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "import/extensions": "off"
+        "import/extensions": "off",
+        "no-underscore-dangle": "off"
     }
 }

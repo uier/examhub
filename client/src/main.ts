@@ -9,4 +9,7 @@ import 'element-plus/lib/theme-chalk/index.css';
 import './style/element-variables.scss';
 
 const app = createApp(App);
-app.use(store).use(router).use(ElementPlus, { locale }).mount('#app');
+app.use(store);
+app.use(router);
+app.use(ElementPlus, { locale });
+app.mount('#app');

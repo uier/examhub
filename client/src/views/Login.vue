@@ -5,12 +5,12 @@
   </el-button>
 </template>
 
-<script lang='ts'>
+<script>
 export default {
   name: 'Login',
   methods: {
-    handleClick(): void {
-      // this.$router.push('http://localhost:3000/api/auth/google');
+    handleClick() {
+      window.location = 'http://localhost:3000/api/auth/google';
     },
   },
 };

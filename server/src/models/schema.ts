@@ -7,8 +7,9 @@ export default [
     role          tinyint check (role >= 0 and role <= 2) default 2,
     contribution  int not null default 0,
     createTime    datetime not null,
-    password      varchar(32) not null,
-    primary key (userId)
+    googleId      varchar(32) not null,
+    primary key (userId),
+    unique key (email)
   );
   `,
   `
