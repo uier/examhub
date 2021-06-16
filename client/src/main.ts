@@ -4,7 +4,7 @@ import 'dayjs/locale/zh-tw';
 import locale from 'element-plus/lib/locale/lang/zh-tw';
 import App from './App.vue';
 import router from './router';
-import store from './store';
+import { store } from './store';
 import 'element-plus/lib/theme-chalk/index.css';
 import './style/element-variables.scss';
 

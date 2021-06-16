@@ -36,9 +36,9 @@
       <el-menu-item
         class="header-menu-item"
         index="4"
-        :route="isLogin ? { path: `/user/${me.userId}` } : { path: '/login' }"
+        :route="user ? { path: `/user/${user.userId}` } : { path: '/login' }"
       >
-        {{ isLogin ? me.name : '登入' }}
+        {{ user ? user.name : '登入' }}
       </el-menu-item>
     </el-menu>
   </el-header>
@@ -47,7 +47,7 @@
 <script>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { computed } from '@vue/runtime-core';
-import { useStore } from 'vuex';
+import { useStore } from '@/store';
 import { useRoute } from 'vue-router';
 
 export default {
@@ -62,12 +62,10 @@ export default {
       return undefined;
     });
     const store = useStore();
-    const me = computed(() => store.state.me);
-    const isLogin = computed(() => store.state.isLogin);
+    const user = computed(() => store.state.user);
     return {
       defaultActive,
-      me,
-      isLogin,
+      user,
     };
   },
 };

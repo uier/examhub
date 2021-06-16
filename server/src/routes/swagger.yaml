@@ -53,6 +53,7 @@ paths:
       tags:
       - Announcement
       summary: 建立一篇公告
+      description: Require role <= 1
       requestBody:
         description: 欲建立的公告的內容
         required: true
@@ -91,11 +92,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnnouncementView'
+                $ref: '#/components/schemas/Announcement'
     delete:
       tags:
       - Announcement
       summary: 刪除特定的公告
+      description: Require role <= 1
       parameters:
         - in: path
           name: annId
@@ -149,7 +151,7 @@ paths:
                   properties:
                     docId:
                       type: number
-                - $ref: '#/components/schemas/ExamView'
+                - $ref: '#/components/schemas/Exam'
     post:
       tags:
       - Exam
@@ -182,7 +184,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExamView'
+                $ref: '#/components/schemas/Exam'
     patch:
       tags:
       - Exam
@@ -281,7 +283,7 @@ paths:
       tags:
       - User
       summary: 拿取所有使用者資訊
-      description: 回傳一個陣列包含所有的使用者及其資訊
+      description: Require role <= 0
       responses:
         '200':
           description: 成功
@@ -327,6 +329,7 @@ paths:
       tags:
       - User
       summary: 拿取使用者的資訊
+      description: Require role <= 0
       parameters:
       - $ref: '#/components/parameters/userIdParam'
       responses:
@@ -336,6 +339,7 @@ paths:
       tags:
       - User
       summary: 修改使用者的資訊
+      description: Require role <= 0
       parameters:
       - $ref: '#/components/parameters/userIdParam'
       requestBody:
@@ -345,8 +349,6 @@ paths:
             schema:
               type: object
               properties:
-                name:
-                  type: string
                 role:
                   type: number
       responses:
@@ -382,11 +384,13 @@ components:
           type: string
         pinned:
           type: boolean
-    AnnouncementView:
+    Announcement:
       allOf:
         - $ref: '#/components/schemas/AnnouncementCreate'
         - type: object
           properties:
+            userId:
+              type: number
             createTime:
               type: string
               format: date-time
@@ -405,7 +409,7 @@ components:
           type: string
         description:
           type: string
-    ExamView:
+    Exam:
       allOf:
         - $ref: '#/components/schemas/ExamCreate'
         - type: object

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
-import isLoggedIn from '../middlewares/authenticate';
+import { isLoggedIn } from '../middlewares/authenticate';
 
 require('../passport-setup.ts');
 
