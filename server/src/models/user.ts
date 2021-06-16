@@ -3,12 +3,12 @@ import { Profile } from 'passport-google-oauth20';
 import { pool } from '.';
 
 const getAllUsers = () => {
-  const sql = 'SELECT `userId`, `name`, `role`, `contribution`, `createTime` FROM `user`';
+  const sql = 'SELECT `userId`, `name`, `role`, `contribution`, `email`, `createTime` FROM `user`';
   return pool.promise().query(sql);
 };
 
 const getUserById = (userId: number, detail = false) => {
-  const sql = detail ? 'SELECT `userId`, `name`, `role`, `contribution`, `createTime` FROM `user` WHERE `userID` = ?'
+  const sql = detail ? 'SELECT `userId`, `name`, `role`, `contribution`, `email`, `createTime` FROM `user` WHERE `userID` = ?'
     : 'SELECT `userId`, `name`, `role` FROM `user` WHERE `userId` = ?';
   return pool.promise().query(sql, [userId]);
 };

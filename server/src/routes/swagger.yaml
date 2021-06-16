@@ -292,20 +292,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    userId:
-                      type: number
-                    name:
-                      type: string
-                    email:
-                      type: string
-                    role:
-                      type: number
-                    contribution:
-                      type: number
-                    createTime:
-                      type: string
+                  $ref: '#/components/schemas/UserDetail'
   /users/me:
     get:
       tags:
@@ -318,12 +305,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  userId:
-                    type: number
-                  name:
-                    type: string
+                $ref: '#/components/schemas/User'
   /users/{userId}:
     get:
       tags:
@@ -335,6 +317,10 @@ paths:
       responses:
         200:
           description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
     patch:
       tags:
       - User
@@ -446,6 +432,29 @@ components:
         lastUpdateTime:
           type: string
           format: date-time
+    UserDetail:
+      properties:
+        userId:
+          type: number
+        name:
+          type: string
+        role:
+          type: number
+        contribution:
+          type: number
+        email:
+          type: string
+        createTime:
+          type: string
+          format: date-time
+    User:
+      properties:
+        userId:
+          type: number
+        name:
+          type: string
+        role:
+          type: number
   parameters:
     userIdParam:
       in: path

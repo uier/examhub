@@ -24,6 +24,10 @@
       label="貢獻值">
     </el-table-column>
     <el-table-column
+      prop="email"
+      label="電子信箱">
+    </el-table-column>
+    <el-table-column
       prop="createTime"
       label="註冊時間">
     </el-table-column>
@@ -32,7 +36,10 @@
 
 <script>
 import { ref } from 'vue';
+import dayjs from 'dayjs';
 import api from '../api';
+
+const ROLE = ['ADMIN', 'EDITOR', 'USER'];
 
 export default {
   name: 'Manage',
@@ -42,7 +49,11 @@ export default {
 
     api.Users.getList()
       .then((resp) => {
-        tableData.value = resp.data;
+        tableData.value = resp.data.map((item) => ({
+          ...item,
+          role: ROLE[item.role],
+          createTime: dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss'),
+        }));
       })
       .finally(() => {
         isLoading.value = false;

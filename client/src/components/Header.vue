@@ -27,6 +27,7 @@
         考古題
       </el-menu-item>
       <el-menu-item
+        v-if="user && user.role === 0"
         class="header-menu-item"
         index="3"
         :route="{ path: '/manage' }"
