@@ -1,75 +1,451 @@
-swagger: "2.0"
+openapi: "3.0.0"
 info:
-  title: "ExamHub API"
-  description: "師大資工考古題系統 API"
-  version: "0.1.0"
-host: "localhost:3000"
-basePath: "/api"
+  title: ExamHub API
+  description: 師大資工考古題系統 API
+  version: 0.1.0
+servers:
+  - url: http://localhost:3000/api
 tags:
-- name: "User"
-  description: "使用者資訊"
-- name: "Auth"
-  description: "驗證使用者"
+- name: Announcement
+  description: 顯示於首頁的系統公告
+- name: Ranking
+  description: 顯示於首頁的貢獻排行榜
+- name: Exam
+  description: 考古題
+- name: Comment
+  description: 留言
+- name: Auth
+  description: 驗證使用者
+- name: User
+  description: 使用者資訊
 paths:
-  "/users":
+  /announcements:
     get:
       tags:
-      - "User"
-      summary: "所有使用者資訊"
-      description: "回傳一個陣列包含所有的使用者及其資訊"
+      - Announcement
+      summary: 拿取所有公告
+      description: 回傳一個陣列包含所有的公告及其資訊
       responses:
-        '200':
-          description: "成功，物件包含使用者 id、使用者名稱、電子信箱、貢獻值、帳號成立時間"
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    annId:
+                      type: number
+                    userId:
+                      type: number
+                    title:
+                      type: string
+                    pinned:
+                      type: boolean
+                    createTime:
+                      type: string
+                      format: date-time
+                    lastUpdateTime:
+                      type: string
+                      format: date-time
+    post:
+      tags:
+      - Announcement
+      summary: 建立一篇公告
+      requestBody:
+        description: 欲建立的公告的內容
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnouncementCreate'
+      responses:
+        200:
+          description: 成功，回傳新增的公告之 annId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  annId:
+                    type: number
+        403:
+          description: 失敗，權限不足
+  /announcements/{annId}:
+    get:
+      tags:
+      - Announcement
+      summary: 拿取特定的公告
+      description: 回傳一個物件包含此公告的資訊
+      parameters:
+        - in: path
+          name: annId
+          required: true
           schema:
-            type: "array"
-            items:
-              type: "object"
+            type: number
+          description: 該公告的 annId
+      responses:
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementView'
+    delete:
+      tags:
+      - Announcement
+      summary: 刪除特定的公告
+      parameters:
+        - in: path
+          name: annId
+          required: true
+          schema:
+            type: number
+          description: 欲刪除的公告的 addId
+      responses:
+        200:
+          description: 成功
+        403:
+          description: 失敗，權限不符
+  /ranking:
+    get:
+      tags:
+      - Ranking
+      summary: 拿取排行榜
+      responses:
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    contribution:
+                      type: number
+  /exam:
+    get:
+      tags:
+      - Exam
+      summary: 拿取所有考古題
+      parameters:
+      - in: query
+        name: courseId
+        schema:
+          type: number
+        description: 拿取特定的課程的考古題
+      responses:
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    docId:
+                      type: number
+                - $ref: '#/components/schemas/ExamView'
+    post:
+      tags:
+      - Exam
+      summary: 修改特定的考古題
+      requestBody:
+        description: 欲建立的考古題
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExamCreate'
+      responses:
+        200:
+          description: 成功
+  /exam/{docId}:
+    get:
+      tags:
+      - Exam
+      summary: 拿取特定的考古題
+      parameters:
+        - in: path
+          name: docId
+          required: true
+          schema:
+            type: number
+          description: 欲拿取的考古題 docId
+      responses:
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExamView'
+    patch:
+      tags:
+      - Exam
+      summary: 修改特定的考古題
+      parameters:
+        - in: path
+          name: docId
+          required: true
+          schema:
+            type: number
+          description: 欲修改的考古題 docId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExamCreate'
+      responses:
+        200:
+          description: 成功
+  /comments:
+    get:
+      tags:
+      - Comment
+      summary: 拿取考古題下或某留言下的留言
+      parameters:
+      - in: query
+        name: areaId
+        schema:
+          type: number
+        description: 拿取特定 areaId 底下的留言 (replyId 為 areaId 的留言)
+      responses:
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'  
+    post:
+      tags:
+      - Comment
+      summary: 創建一個留言
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
               properties:
-                userId:
-                  type: "number"
+                replyId:
+                  type: number
+                content:
+                  type: string
+      responses:
+        200:
+          description: 成功
+  /comments/{comId}:
+    patch:
+      tags:
+      - Comment
+      summary: 修改一則留言
+      parameters:
+      - in: path
+        required: true
+        name: comId
+        schema:
+          type: number
+        description: 欲修改的留言的 comId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        200:
+          description: 成功
+    delete:
+      tags:
+      - Comment
+      summary: 刪除一則留言
+      parameters:
+      - in: path
+        required: true
+        name: comId
+        schema:
+          type: number
+        description: 欲刪除的留言的 comId
+      responses:
+        200:
+          description: 成功
+  /users:
+    get:
+      tags:
+      - User
+      summary: 拿取所有使用者資訊
+      description: 回傳一個陣列包含所有的使用者及其資訊
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    userId:
+                      type: number
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    role:
+                      type: number
+                    contribution:
+                      type: number
+                    createTime:
+                      type: string
+  /users/me:
+    get:
+      tags:
+      - User
+      summary: 自己的資訊
+      description: 回傳一個物件包含請求者的使用者資訊
+      responses:
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: number
+                  name:
+                    type: string
+  /users/{userId}:
+    get:
+      tags:
+      - User
+      summary: 拿取使用者的資訊
+      parameters:
+      - $ref: '#/components/parameters/userIdParam'
+      responses:
+        200:
+          description: 成功
+    patch:
+      tags:
+      - User
+      summary: 修改使用者的資訊
+      parameters:
+      - $ref: '#/components/parameters/userIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
                 name:
-                  type: "string"
-                email:
-                  type: "string"
+                  type: string
                 role:
-                  type: "number"
-                contribution:
-                  type: "number"
-                createTime:
-                  type: "string"
-  "/users/me":
+                  type: number
+      responses:
+        200:
+          description: 成功
+  /auth/google:
     get:
       tags:
-      - "User"
-      summary: "自己的資訊"
-      description: "回傳一個物件包含請求者的使用者資訊"
+      - Auth
+      summary: 透過 Google OAuth 2.0 登入
+      description: 開啟此頁面後將重新導向 Google 登入
       responses:
-        '200':
-          description: "成功，物件包含使用者 id、使用者名稱"
-          schema:
-            type: "object"
-            properties:
-              userId:
-                type: "number"
-              name:
-                type: "string"
-  "/auth/google":
+        302:
+          description: 登入成功將重新導向回首頁 ('/')，失敗則重新導向回登入畫面 ('/login?err=true')
+  /auth/logout:
     get:
       tags:
-      - "Auth"
-      summary: "透過 Google OAuth 2.0 登入"
-      description: "開啟此頁面後將重新導向 Google 登入"
+      - Auth
+      summary: 登出
+      description: 將使用者登出、清除 session
       responses:
-        '302':
-          description: "登入成功將重新導向回首頁 ('/')，失敗則重新導向回登入畫面 ('/login?err=true')"
-  "/auth/logout":
-    get:
-      tags:
-      - "Auth"
-      summary: "登出"
-      description: "將使用者登出、清除 session"
-      responses:
-        '200':
-          description: "成功"
-        '500':
-          description: "失敗，伺服器發生未知錯誤"
+        200:
+          description: 成功
+        500:
+          description: 失敗，伺服器發生未知錯誤
+components:
+  schemas:
+    AnnouncementCreate:
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        pinned:
+          type: boolean
+    AnnouncementView:
+      allOf:
+        - $ref: '#/components/schemas/AnnouncementCreate'
+        - type: object
+          properties:
+            createTime:
+              type: string
+              format: date-time
+            lastUpdateTime:
+              type: string
+              format: date-time
+    ExamCreate:
+      properties:
+        courseId:
+          type: number
+        year:
+          type: number
+        semester:
+          type: number
+        title:
+          type: string
+        description:
+          type: string
+    ExamView:
+      allOf:
+        - $ref: '#/components/schemas/ExamCreate'
+        - type: object
+          properties:
+            userId:
+              type: number
+            createTime:
+              type: string
+              format: date-time
+            lastUpdateTime:
+              type: string
+              format: date-time
+            upvote:
+              type: integer
+            downvote:
+              type: integer
+            folderPath:
+              type: string
+    Comment:
+      properties:
+        comId:
+          type: number
+        docId:
+          type: number
+        replyId:
+          type: number
+        userID:
+          type: number
+        content:
+          type: string
+        createTime:
+          type: string
+          format: date-time
+        lastUpdateTime:
+          type: string
+          format: date-time
+  parameters:
+    userIdParam:
+      in: path
+      name: userId
+      required: true
+      schema:
+        type: number
