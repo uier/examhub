@@ -13,7 +13,7 @@ const Auth = {
 };
 
 const Users = {
-  getUsers: (): AxiosPromise<User.Info[]> => agent.get('/users'),
+  getList: (): AxiosPromise<User.Info[]> => agent.get('/users'),
   getMe: (): AxiosPromise<User.Info> => agent.get('/users/me'),
 };
 

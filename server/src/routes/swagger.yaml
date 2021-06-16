@@ -53,6 +53,7 @@ paths:
       tags:
       - Announcement
       summary: 建立一篇公告
+      description: Require role <= 1
       requestBody:
         description: 欲建立的公告的內容
         required: true
@@ -96,6 +97,7 @@ paths:
       tags:
       - Announcement
       summary: 刪除特定的公告
+      description: Require role <= 1
       parameters:
         - in: path
           name: annId
@@ -281,7 +283,7 @@ paths:
       tags:
       - User
       summary: 拿取所有使用者資訊
-      description: 回傳一個陣列包含所有的使用者及其資訊
+      description: Require role <= 0
       responses:
         '200':
           description: 成功
@@ -327,6 +329,7 @@ paths:
       tags:
       - User
       summary: 拿取使用者的資訊
+      description: Require role <= 0
       parameters:
       - $ref: '#/components/parameters/userIdParam'
       responses:
@@ -336,6 +339,7 @@ paths:
       tags:
       - User
       summary: 修改使用者的資訊
+      description: Require role <= 0
       parameters:
       - $ref: '#/components/parameters/userIdParam'
       requestBody:
@@ -345,8 +349,6 @@ paths:
             schema:
               type: object
               properties:
-                name:
-                  type: string
                 role:
                   type: number
       responses:
