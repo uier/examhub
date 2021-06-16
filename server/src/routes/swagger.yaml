@@ -91,7 +91,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnnouncementView'
+                $ref: '#/components/schemas/Announcement'
     delete:
       tags:
       - Announcement
@@ -149,7 +149,7 @@ paths:
                   properties:
                     docId:
                       type: number
-                - $ref: '#/components/schemas/ExamView'
+                - $ref: '#/components/schemas/Exam'
     post:
       tags:
       - Exam
@@ -182,7 +182,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExamView'
+                $ref: '#/components/schemas/Exam'
     patch:
       tags:
       - Exam
@@ -382,11 +382,13 @@ components:
           type: string
         pinned:
           type: boolean
-    AnnouncementView:
+    Announcement:
       allOf:
         - $ref: '#/components/schemas/AnnouncementCreate'
         - type: object
           properties:
+            userId:
+              type: number
             createTime:
               type: string
               format: date-time
@@ -405,7 +407,7 @@ components:
           type: string
         description:
           type: string
-    ExamView:
+    Exam:
       allOf:
         - $ref: '#/components/schemas/ExamCreate'
         - type: object
