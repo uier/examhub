@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import { useStore } from 'vuex';
+import { useStore } from '@/store';
+import { ActionTypes } from '@/store/types';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { onMounted } from '@vue/runtime-core';
 import Header from './components/Header.vue';
@@ -20,7 +21,7 @@ export default {
   setup() {
     const store = useStore();
     onMounted(() => {
-      store.dispatch('checkLoggedIn');
+      store.dispatch(ActionTypes.GET_USER);
     });
   },
 };
