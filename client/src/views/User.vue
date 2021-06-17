@@ -1,4 +1,4 @@
-<template>
+ <template>
   <h1>User</h1>
   <p>Hi! {{ user.name }}, your id is {{ user.userId }}</p>
   <el-button @click="logout">登出</el-button>

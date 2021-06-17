@@ -2,7 +2,7 @@ import mysql from 'mysql2';
 import user from './user';
 import schema from './schema';
 import announcement from './announcement';
-
+import ranking from './ranking';
 export const pool = mysql.createPool({
   connectionLimit: 10,
   user: process.env.DB_USER,
@@ -24,4 +24,5 @@ export default {
   // export the models below
   user,
   announcement,
+  ranking,
 };

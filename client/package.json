@@ -58,8 +58,22 @@
     },
     "rules": {
       "no-shadow": "off",
-      "@typescript-eslint/no-shadow": ["error", { "allow": ["state"] }],
-      "@typescript-eslint/explicit-module-boundary-types": ["warn", { "allowedNames": ["setup"] }]
+      "@typescript-eslint/no-shadow": [
+        "error",
+        {
+          "allow": [
+            "state"
+          ]
+        }
+      ],
+      "@typescript-eslint/explicit-module-boundary-types": [
+        "warn",
+        {
+          "allowedNames": [
+            "setup"
+          ]
+        }
+      ]
     },
     "overrides": [
       {
