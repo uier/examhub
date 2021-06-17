@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { pool } from '.';
+import db from '../models';
 
 const getAllExams = () => {
   const sql = 'SELECT `docId`, `courseId`, `year`, `semester`, `title`, `description`, `userId`, `createTime`, `lastUpdateTime`, `upvote`, `downvote`, `folderPath` FROM `document`';
@@ -12,23 +13,27 @@ const getExamById = (docId: number) => {
 }
 
 const addExam = async ( userId: number, courseId: number, year: number, semester: number, title: string, description: string) => {
-    const newExam = {
-        userId,
-        courseId,
-        year,
-        semester,
-        title,
-        description,
-        createTime: dayjs().format(),
-        lastUpdateTime: dayjs().format(),
-    };
-    const sql = 'INSERT INTO `document` SET ?';
-    return pool.promise().query(sql, newExam);
+  const docId = await db.commentArea.addcommentArea();
+  const folderPath = "i am path, hi";
+  const newExam = {
+    docId,
+    userId,
+    courseId,
+    year,
+    semester,
+    title,
+    description,
+    folderPath,
+    createTime: dayjs().format(),
+    lastUpdateTime: dayjs().format(),
+  };
+  const sql = 'INSERT INTO `document` SET ?';
+  return pool.promise().query(sql, newExam);
 }
 
-const editExamById = async (docId: number) => {
-    const sql = 'UPDATE `document` WHERE `docId` = ?';
-    return pool.promise().query(sql, [docId]);
+const delExamById = async (docId: number) => {
+  const sql = 'DELETE FROM `document` WHERE `docId` = ?';
+  return pool.promise().query(sql, [docId]);
 }
 
 const checkCourseIdExist = (courseId: number) => {
@@ -45,7 +50,7 @@ export default {
   getAllExams,
   getExamById,
   addExam,
-  editExamById,
+  delExamById,
   checkCourseIdExist,
   getExamByCourseId
 };
