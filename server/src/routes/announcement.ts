@@ -18,8 +18,8 @@ router.post('/', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     const { userId } = <Express.User>req.user;
     const { title, content, pinned } = req.body;
-    await db.announcement.addAnnouncement(userId, title, content, pinned);
-    res.status(200).json();
+    const [result] = await db.announcement.addAnnouncement(userId, title, content, pinned);
+    res.status(200).json({"annId":result["insertId"]});
   } catch (error) {
     res.status(500).json(error);
     next(error);
