@@ -7,6 +7,17 @@ const addcommentArea = async () => {
   return Number(result["insertId"]);
 }
 
+const checkAreaIdExist = async (areaId: number) => {
+  const sql = 'SELECT `areaId` from `comment_area` where `areaId` = ?';
+  return pool.promise().query(sql, areaId);
+}
+
+const delCommentAreaById = (docId: number) => {
+  const sql = 'DELETE FROM `comment_area` WHERE `areaId` = ?';
+  return pool.promise().query(sql, [docId]);
+}
 export default {
-  addcommentArea
+  addcommentArea,
+  checkAreaIdExist,
+  delCommentAreaById,
 };

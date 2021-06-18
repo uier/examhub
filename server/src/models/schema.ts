@@ -43,7 +43,7 @@ export default [
     downvote            int not null default 0,
     folderPath          varchar(1024) not null,
     primary key (docId),
-    foreign key (docId) references comment_area(areaId),
+    foreign key (docId) references comment_area(areaId) on update cascade on delete cascade,
     foreign key (courseId) references course (courseId) on update cascade on delete set default,
     foreign key (userId) references user (userId) on update cascade on delete set default
   );
@@ -64,15 +64,14 @@ export default [
   `
   CREATE TABLE if not exists comment (
     comId               int not null,
-    docId               int not null,
     replyId             int not null,
     userId              int not null default -1,
     content             varchar(4096) not null,
     createTime          datetime not null,
     lastUpdateTime      datetime not null,
     primary key (comId),
-    foreign key (comId) references comment_area(areaId),
-    foreign key (replyId) references comment (comId) on update cascade on delete cascade,
+    foreign key (comId) references comment_area(areaId) on update cascade on delete cascade,
+    foreign key (replyId) references comment_area(areaId) on update cascade on delete cascade,
     foreign key (userId) references user (userId) on update cascade on delete set default
   );
   `,
