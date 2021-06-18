@@ -1,59 +1,80 @@
 <template>
-  <h1>manage</h1>
+  <h1 class="font-medium text-2xl text-gray-900 mb-4">使用者列表</h1>
   <p v-if="isLoading">Loading...</p>
   <p v-else-if="!tableData">error</p>
-  <el-table
-    v-else
-    :data="tableData"
-    stripe
-    style="width: 100%">
-    <el-table-column
-      prop="userId"
-      label="ID">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名">
-    </el-table-column>
-    <el-table-column
-      prop="role"
-      label="權限">
-    </el-table-column>
-    <el-table-column
-      prop="contribution"
-      label="貢獻值">
-    </el-table-column>
-    <el-table-column
-      prop="email"
-      label="電子信箱">
-    </el-table-column>
-    <el-table-column
-      prop="createTime"
-      label="註冊時間">
-    </el-table-column>
-  </el-table>
+  <div v-else class="shadow border-b border-gray-200 sm:rounded-lg">
+    <table class="min-w-full divide-y divide-gray-100 table-auto">
+      <thead class="bg-rose-200">
+        <tr>
+          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
+            ID
+          </th>
+          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
+            姓名
+          </th>
+          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
+            角色
+          </th>
+          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
+            貢獻值
+          </th>
+          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
+            Email
+          </th>
+          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
+            創建時間
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-100">
+        <tr v-for="{ userId, name, role, contribution, email, createTime } in tableData" :key="userId">
+          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
+            {{ userId }}
+          </td>
+          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
+            {{ name }}
+          </td>
+          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
+            {{ ROLE[role] }}
+          </td>
+          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
+            {{ contribution }}
+          </td>
+          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
+            {{ email }}
+          </td>
+          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
+            {{ createTime }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
-<script>
-import { ref } from 'vue';
+<script lang='ts'>
+import { ref, defineComponent, reactive } from 'vue';
 import dayjs from 'dayjs';
 import api from '../api';
 
 const ROLE = ['ADMIN', 'EDITOR', 'USER'];
 
-export default {
+export default defineComponent({
   name: 'Manage',
   setup() {
-    const tableData = ref(null);
+    const tableData: User.Detail[] = reactive([]);
     const isLoading = ref(true);
+    const isError = ref(false);
 
     api.Users.getList()
       .then((resp) => {
-        tableData.value = resp.data.map((item) => ({
+        tableData.push(...resp.data.map((item) => ({
           ...item,
-          role: ROLE[item.role],
           createTime: dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss'),
-        }));
+        })));
+      })
+      .catch(() => {
+        isError.value = true;
       })
       .finally(() => {
         isLoading.value = false;
@@ -62,7 +83,9 @@ export default {
     return {
       tableData,
       isLoading,
+      isError,
+      ROLE,
     };
   },
-};
+});
 </script>

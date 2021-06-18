@@ -8,6 +8,6 @@ declare namespace User {
   interface Detail extends Info {
     contribution: number
     email: string
-    createTime: Date
+    createTime: string
   }
 }

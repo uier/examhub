@@ -1,16 +1,20 @@
 declare namespace Announcement {
   interface Info {
-    userId: number
+    annId: number
     title: string
     content: string
     pinned: boolean
-    createTime: Date
-    lastUpdateTime: Date
+    createTime: string
+    lastUpdateTime: string
   }
 
-  export type List = Omit<Info, 'content'> & {
+  export interface ListItem {
     annId: number
-  }[]
+    title: string
+    pinned: boolean
+    createTime: string
+    lastUpdateTime: string
+  }
 
   interface CreateBody {
     title: string
