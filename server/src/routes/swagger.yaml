@@ -185,6 +185,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Exam'
+    delete:
+      tags:
+      - Exam
+      summary: 刪除特定的考古題
+      description: Require role <= 1 or useId = doc.userId
+      parameters:
+        - in: path
+          name: docId
+          required: true
+          schema:
+            type: number
+          description: 欲刪除的考古題 docId
+      responses:
+        200:
+          description: 成功
+        403:
+          description: 失敗，權限不符
     patch:
       tags:
       - Exam
