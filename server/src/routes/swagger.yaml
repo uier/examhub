@@ -10,6 +10,8 @@ tags:
   description: 顯示於首頁的系統公告
 - name: Ranking
   description: 顯示於首頁的貢獻排行榜
+- name: Course
+  description: 課程，分類考古題的資料夾
 - name: Exam
   description: 考古題
 - name: Comment
@@ -129,6 +131,78 @@ paths:
                       type: string
                     contribution:
                       type: number
+  /courses:
+    get:
+      tags:
+      - Course
+      summary: 拿取所有課程
+      responses:
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    courseId:
+                      type: number
+                - $ref: '#/components/schemas/Course'
+    post:
+      tags:
+      - Course
+      summary: 創建一個課程
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  courseId:
+                    type: number
+  /courses/{courseId}:
+    get:
+      tags:
+      - Course
+      summary: 拿取一個課程
+      parameters:
+      - in: path
+        name: courseId
+        required: true
+        schema:
+          type: number
+      responses:
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+    patch:
+      tags:
+      - Course
+      summary: 修改一個課程
+      parameters:
+      - in: path
+        name: courseId
+        required: true
+        schema:
+          type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        200:
+          description: 成功
   /exam:
     get:
       tags:
@@ -455,6 +529,16 @@ components:
           type: string
         role:
           type: number
+    Course:
+      properties:
+        courseName:
+          type: string
+        deptName:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
   parameters:
     userIdParam:
       in: path
