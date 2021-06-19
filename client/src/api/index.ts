@@ -8,6 +8,13 @@ const Announcement = {
   create: (body: Announcement.CreateBody): AxiosPromise<number> => agent.post('/announcements', body),
 };
 
+const Course = {
+  get: (id: number): AxiosPromise<Course.Info> => agent.get(`/courses/${id}`),
+  getList: (): AxiosPromise<Course.Info[]> => agent.get('/courses'),
+  create: (body: Course.CreateBody): AxiosPromise<{ courseId: number }> => agent.post('/courses', body),
+  modify: (id: number, body: Course.CreateBody): AxiosPromise => agent.patch(`/courses/${id}`, body),
+};
+
 const Auth = {
   logout: (): AxiosPromise => agent.get('/auth/logout'),
 };
@@ -20,6 +27,7 @@ const Users = {
 
 export default {
   Announcement,
+  Course,
   Auth,
   Users,
 };
