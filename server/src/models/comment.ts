@@ -31,7 +31,7 @@ const getCommentPublisher = async (comId: number) => {
   return Number(result[0].userId);
 };
 
-const editComment = (userId: number, comId: number, content: string) => {
+const editComment = (comId: number, content: string) => {
   const newComment = {
     content,
     lastUpdateTime: dayjs().format(),
