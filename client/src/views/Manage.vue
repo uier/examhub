@@ -1,90 +1,98 @@
 <template>
-  <h1 class="font-medium text-2xl text-gray-900 mb-4">使用者列表</h1>
-  <p v-if="isLoading">Loading...</p>
-  <p v-else-if="!tableData">error</p>
-  <div v-else class="shadow border-b border-gray-200 sm:rounded-lg">
-    <table class="min-w-full divide-y divide-gray-100 table-auto">
-      <thead class="bg-rose-200">
-        <tr>
-          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
-            ID
-          </th>
-          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
-            姓名
-          </th>
-          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
-            角色
-          </th>
-          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
-            貢獻值
-          </th>
-          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
-            Email
-          </th>
-          <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
-            創建時間
-          </th>
-        </tr>
-      </thead>
-      <tbody class="bg-white divide-y divide-gray-100">
-        <tr v-for="{ userId, name, role, contribution, email, createTime } in tableData" :key="userId">
-          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
-            {{ userId }}
-          </td>
-          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
-            {{ name }}
-          </td>
-          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
-            {{ ROLE[role] }}
-          </td>
-          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
-            {{ contribution }}
-          </td>
-          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
-            {{ email }}
-          </td>
-          <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
-            {{ createTime }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="mb-4 flex">
+    <h1 class="font-medium text-2xl text-gray-900">課程列表</h1>
+    <div class="flex-1" />
+    <CourseForm @submit="createCourse" />
   </div>
+  <p v-if="courses.isLoading">Loading...</p>
+  <p v-else-if="courses.isError">error</p>
+  <CourseTable v-else :tableData="courses.tableData" @edit-course="editCourse" @delete-course="deleteCourse" />
+
+  <h1 class="font-medium text-2xl text-gray-900 mb-4 mt-8">使用者列表</h1>
+  <p v-if="users.isLoading">Loading...</p>
+  <p v-else-if="users.isError">error</p>
+  <UserTable v-else :tableData="users.tableData" :ROLE="ROLE" />
 </template>
 
 <script lang='ts'>
-import { ref, defineComponent, reactive } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import dayjs from 'dayjs';
 import api from '../api';
+import UserTable from '../components/UserTable.vue';
+import CourseTable from '../components/CourseTable.vue';
+import CourseForm from '../components/CourseForm.vue';
 
 const ROLE = ['ADMIN', 'EDITOR', 'USER'];
 
+interface UserDataState {
+  tableData: User.Detail[]
+  isLoading: boolean
+  isError: boolean
+}
+
+interface CourseDataState {
+  tableData: Course.Info[]
+  isLoading: boolean
+  isError: boolean
+}
+
 export default defineComponent({
   name: 'Manage',
+  components: { UserTable, CourseTable, CourseForm },
   setup() {
-    const tableData: User.Detail[] = reactive([]);
-    const isLoading = ref(true);
-    const isError = ref(false);
+    const courses: CourseDataState = reactive({
+      tableData: [],
+      isLoading: true,
+      isError: false,
+    });
+
+    const users: UserDataState = reactive({
+      tableData: [],
+      isLoading: true,
+      isError: false,
+    });
+
+    api.Course.getList()
+      .then((resp) => {
+        courses.tableData = resp.data;
+      })
+      .catch(() => courses.isError = true)
+      .finally(() => courses.isLoading = false);
 
     api.Users.getList()
       .then((resp) => {
-        tableData.push(...resp.data.map((item) => ({
+        users.tableData = resp.data.map((item) => ({
           ...item,
-          createTime: dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss'),
-        })));
+          createTime: dayjs(item.createTime).format('YYYY-MM-DD HH:mm'),
+        }));
       })
-      .catch(() => {
-        isError.value = true;
-      })
-      .finally(() => {
-        isLoading.value = false;
-      });
+      .catch(() => users.isError = true)
+      .finally(() => users.isLoading = false);
+
+    const createCourse = (data: Course.CreateBody, resolve: any, reject: any) => {
+      api.Course.create(data).then(resolve).catch(reject);
+    };
+
+    const editCourse = (data: Course.Info, resolve: any, reject: any) => {
+      const { courseId, courseName, deptName, category, description } = data;
+      const modifyBody: Course.CreateBody = {
+        courseName, deptName, category, description,
+      };
+      api.Course.modify(courseId, modifyBody).then(resolve).catch(reject);
+    };
+
+    const deleteCourse = (courseId: number) => {
+      alert('Sorry~ 我們還沒做刪除功能耶，歡迎發 PR > <');
+      // const confirm = window.confirm('確定要刪除ㄇ？');
+    };
 
     return {
-      tableData,
-      isLoading,
-      isError,
       ROLE,
+      courses,
+      users,
+      createCourse,
+      editCourse,
+      deleteCourse,
     };
   },
 });

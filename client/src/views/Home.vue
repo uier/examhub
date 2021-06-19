@@ -8,26 +8,31 @@
         <table class="min-w-full divide-y divide-gray-100 table-auto">
           <thead class="bg-rose-200">
             <tr>
-              <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
+              <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
                 日期
               </th>
-              <th scope="col" class="pl-2 md:pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
+              <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
                 標題
               </th>
-              <th scope="col" class="hidden md:block pl-6 py-3 text-left text-sm md:text-lg text-gray-900">
+              <th scope="col" class="hidden md:block pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
                 發布者
               </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-100">
+            <tr v-if="tableData.length === 0">
+              <td rowspan="3" class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-900">
+                尚無公告
+              </td>
+            </tr>
             <tr v-for="{ createTime, title, userId, pinned, annId } in tableData" :key="annId">
-              <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-600">
+              <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-900">
                 {{ createTime }}
               </td>
               <td class="pl-2 md:pl-6 py-4 text-sm md:text-lg text-gray-900">
                 {{ pinned ? '📌' : '' }} {{ title }}
               </td>
-              <td class="hidden md:block pl-6 py-4 text-sm md:text-base text-gray-600">
+              <td class="hidden md:block pl-6 py-4 text-sm md:text-base text-gray-900">
                 {{ userId }}
               </td>
             </tr>
@@ -64,12 +69,8 @@ export default defineComponent({
           return 1;
         }));
       })
-      .catch(() => {
-        isError.value = true;
-      })
-      .finally(() => {
-        isLoading.value = false;
-      });
+      .catch(() => isError.value = true)
+      .finally(() => isLoading.value = false);
 
     return {
       tableData,

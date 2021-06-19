@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { OkPacket } from 'mysql2';
 import { isLoggedIn, isAdmin } from '../middlewares/authenticate';
 import db from '../models';
 
@@ -29,13 +30,18 @@ router.get('/:courseId', async (req, res, next) => {
   }
 });
 
-router.post('/', isLoggedIn, async (req, res, next) => {
+router.post('/', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     const {
       courseName, deptName, category, description,
     } = req.body;
-    await db.course.addCourse(courseName, deptName, category, description);
-    res.status(200).json();
+    const [result] = await db.course.addCourse(
+      courseName,
+      deptName,
+      category,
+      description,
+    ) as unknown as OkPacket[];
+    res.status(200).json({ courseId: result.insertId });
   } catch (error) {
     res.status(500).json(error);
     next(error);

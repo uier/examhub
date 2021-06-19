@@ -5,7 +5,7 @@ const getAllcourse = () => {
   return pool.promise().query(sql);
 };
 
-const addCourse = (courseName, deptName, category, description) => {
+const addCourse = (courseName: string, deptName: string, category: string, description: string) => {
   const newCourse = {
     courseName,
     deptName,
