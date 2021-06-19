@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <main class="px-6 py-6 max-w-7xl mx-auto">
+  <main class="w-full mx-auto">
     <router-view />
   </main>
 </template>

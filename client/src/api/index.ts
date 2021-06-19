@@ -10,7 +10,7 @@ const Announcement = {
 
 const Exam = {
   get: (id: number): AxiosPromise<Exam.Info> => agent.get(`/exam/${id}`),
-  getList: (): AxiosPromise<Exam.ListItem[]> => agent.get('/exam'),
+  getList: (courseId?: number): AxiosPromise<Exam.ListItem[]> => agent.get('/exam', { params: courseId ? { courseId } : {} }),
   create: (body: Exam.CreateBody): AxiosPromise<number> => agent.post('/exam', body),
   delete: (id: number): AxiosPromise => agent.delete(`/exam/${id}`),
 };

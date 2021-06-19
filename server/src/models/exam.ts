@@ -43,12 +43,12 @@ const delExamById = async (docId: number) => {
 };
 
 const checkCourseIdExist = (courseId: number) => {
-  const sql = 'SELECT `docId` FROM `document` WHERE `courseId` = ?';
+  const sql = 'SELECT `courseId` FROM `course` WHERE `courseId` = ?';
   return pool.promise().query(sql, [courseId]);
 };
 
 const getExamByCourseId = (courseId: number) => {
-  const sql = 'SELECT `docId` FROM `document` WHERE `courseId` = ?';
+  const sql = 'SELECT `docId`, `courseId`, `year`, `semester`, `title`, `description`, `userId`, `createTime`, `lastUpdateTime`, `upvote`, `downvote`, `folderPath` FROM `document` WHERE `courseId` = ?';
   return pool.promise().query(sql, [courseId]);
 };
 

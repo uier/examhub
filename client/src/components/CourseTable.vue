@@ -1,25 +1,23 @@
 <template>
-  <table class="min-w-full table-auto border-collapse rounded overflow-hidden shadow-md">
+  <table class="min-w-full table-fixed border-collapse rounded overflow-hidden shadow-md">
     <thead class="bg-rose-200">
       <tr>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+        <th class="w-4 pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
           ID
         </th>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+        <th class="w-1/5 pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
           課程名稱
         </th>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+        <th class="w-16 pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
           所屬系所
         </th>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+        <th class="w-16 pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
           所屬分類
         </th>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700 w-1/4 md:w-1/2">
-          <div class="block max-h-20 overflow-y-auto">
-            詳細資訊
-          </div>
+        <th class="w-1/4 pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+          詳細資訊
         </th>
-        <th scope="col" class="pl-2 md:pl-6 py-4" />
+        <th class="w-8 pl-2 md:pl-6 py-4" />
       </tr>
     </thead>
     <tbody class="bg-gay-50 divide-y divide-gray-100">
@@ -36,8 +34,8 @@
         <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-900">
           {{ category }}
         </td>
-        <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-900 w-1/4 md:w-1/2">
-          <div class="block max-h-20 overflow-y-auto">
+        <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-gray-900">
+          <div class="block max-h-20 overflow-y-auto break-all">
             {{ description }}
           </div>
         </td>

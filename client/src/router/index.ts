@@ -11,6 +11,18 @@ const routes = [
     path: '/browse',
     name: 'Browse',
     component: () => import('@/views/Browse.vue'),
+    children: [
+      // {
+      //   path: '',
+      //   name: 'Browse',
+      //   component: () => import('@/views/Browse.vue'),
+      // },
+      {
+        path: ':courseId',
+        name: 'Exams',
+        component: () => import('@/views/Exams.vue'),
+      },
+    ],
   },
   {
     path: '/manage',
