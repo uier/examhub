@@ -37,11 +37,6 @@ const addExam = async (
   return pool.promise().query(sql, newExam);
 };
 
-const delExamById = async (docId: number) => {
-  const sql = 'DELETE FROM `document` WHERE `docId` = ?';
-  return pool.promise().query(sql, [docId]);
-};
-
 const checkCourseIdExist = (courseId: number) => {
   const sql = 'SELECT `courseId` FROM `course` WHERE `courseId` = ?';
   return pool.promise().query(sql, [courseId]);
@@ -56,7 +51,6 @@ export default {
   getAllExams,
   getExamById,
   addExam,
-  delExamById,
   checkCourseIdExist,
   getExamByCourseId,
 };

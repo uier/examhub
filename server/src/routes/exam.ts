@@ -65,10 +65,11 @@ router.get('/:docId', async (req, res, next) => {
   }
 });
 
+// 還沒有判斷權限（是否是admin or 發布者）
 router.delete('/:docId', isLoggedIn, async (req, res, next) => {
   try {
-    await db.exam.delExamById(Number(req.params.docId));
-    res.sendStatus(200);
+    const [rows] = await db.commentArea.delCommentAreaById(Number(req.params.docId));
+    res.status(200).json(rows);
   } catch (error) {
     res.status(500).json(error);
     next(error);

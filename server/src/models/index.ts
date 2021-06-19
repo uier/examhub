@@ -4,6 +4,7 @@ import schema from './schema';
 import announcement from './announcement';
 import exam from './exam';
 import commentArea from './comment-area';
+import comment from './comment';
 import course from './course';
 
 export const pool = mysql.createPool({
@@ -29,5 +30,6 @@ export default {
   announcement,
   exam,
   commentArea,
+  comment,
   course,
 };
