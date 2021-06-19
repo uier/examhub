@@ -5,6 +5,7 @@ import announcement from './announcement';
 import exam from './exam';
 import commentArea from './comment-area';
 import comment from './comment';
+import course from './course';
 
 export const pool = mysql.createPool({
   connectionLimit: 10,
@@ -30,4 +31,5 @@ export default {
   exam,
   commentArea,
   comment,
+  course,
 };
