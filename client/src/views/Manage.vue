@@ -1,68 +1,99 @@
 <template>
-  <h1>manage</h1>
-  <p v-if="isLoading">Loading...</p>
-  <p v-else-if="!tableData">error</p>
-  <el-table
-    v-else
-    :data="tableData"
-    stripe
-    style="width: 100%">
-    <el-table-column
-      prop="userId"
-      label="ID">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名">
-    </el-table-column>
-    <el-table-column
-      prop="role"
-      label="權限">
-    </el-table-column>
-    <el-table-column
-      prop="contribution"
-      label="貢獻值">
-    </el-table-column>
-    <el-table-column
-      prop="email"
-      label="電子信箱">
-    </el-table-column>
-    <el-table-column
-      prop="createTime"
-      label="註冊時間">
-    </el-table-column>
-  </el-table>
+  <div class="mb-4 flex">
+    <h1 class="font-medium text-2xl text-gray-900">課程列表</h1>
+    <div class="flex-1" />
+    <CourseForm @submit="createCourse" />
+  </div>
+  <p v-if="courses.isLoading">Loading...</p>
+  <p v-else-if="courses.isError">error</p>
+  <CourseTable v-else :tableData="courses.tableData" @edit-course="editCourse" @delete-course="deleteCourse" />
+
+  <h1 class="font-medium text-2xl text-gray-900 mb-4 mt-8">使用者列表</h1>
+  <p v-if="users.isLoading">Loading...</p>
+  <p v-else-if="users.isError">error</p>
+  <UserTable v-else :tableData="users.tableData" :ROLE="ROLE" />
 </template>
 
-<script>
-import { ref } from 'vue';
+<script lang='ts'>
+import { defineComponent, reactive } from 'vue';
 import dayjs from 'dayjs';
 import api from '../api';
+import UserTable from '../components/UserTable.vue';
+import CourseTable from '../components/CourseTable.vue';
+import CourseForm from '../components/CourseForm.vue';
 
 const ROLE = ['ADMIN', 'EDITOR', 'USER'];
 
-export default {
+interface UserDataState {
+  tableData: User.Detail[]
+  isLoading: boolean
+  isError: boolean
+}
+
+interface CourseDataState {
+  tableData: Course.Info[]
+  isLoading: boolean
+  isError: boolean
+}
+
+export default defineComponent({
   name: 'Manage',
+  components: { UserTable, CourseTable, CourseForm },
   setup() {
-    const tableData = ref(null);
-    const isLoading = ref(true);
+    const courses: CourseDataState = reactive({
+      tableData: [],
+      isLoading: true,
+      isError: false,
+    });
+
+    const users: UserDataState = reactive({
+      tableData: [],
+      isLoading: true,
+      isError: false,
+    });
+
+    api.Course.getList()
+      .then((resp) => {
+        courses.tableData = resp.data;
+      })
+      .catch(() => courses.isError = true)
+      .finally(() => courses.isLoading = false);
 
     api.Users.getList()
       .then((resp) => {
-        tableData.value = resp.data.map((item) => ({
+        users.tableData = resp.data.map((item) => ({
           ...item,
-          role: ROLE[item.role],
-          createTime: dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss'),
+          createTime: dayjs(item.createTime).format('YYYY-MM-DD HH:mm'),
         }));
       })
-      .finally(() => {
-        isLoading.value = false;
-      });
+      .catch(() => users.isError = true)
+      .finally(() => users.isLoading = false);
+
+    const createCourse = (data: Course.CreateBody, resolve: any, reject: any) => {
+      api.Course.create(data).then(resolve).catch(reject);
+    };
+
+    const editCourse = (data: Course.Info, resolve: any, reject: any) => {
+      const { courseId, courseName, deptName, category, description } = data;
+      const modifyBody: Course.CreateBody = {
+        courseName, deptName, category, description,
+      };
+      api.Course.modify(courseId, modifyBody).then(resolve).catch(reject);
+    };
+
+    const deleteCourse = (courseId: number) => {
+      alert('Sorry~ 我們還沒做刪除功能耶，歡迎發 PR > <');
+      // const confirm = window.confirm('確定要刪除ㄇ？');
+    };
 
     return {
-      tableData,
-      isLoading,
+      ROLE,
+      courses,
+      users,
+      createCourse,
+      editCourse,
+      deleteCourse,
     };
   },
-};
+});
 </script>
