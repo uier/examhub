@@ -2,22 +2,22 @@
   <table class="min-w-full table-auto border-collapse rounded overflow-hidden shadow-md">
     <thead class="bg-rose-200">
       <tr>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+        <th class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
           ID
         </th>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+        <th class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
           姓名
         </th>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+        <th class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
           角色
         </th>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+        <th class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
           貢獻值
         </th>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+        <th class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
           Email
         </th>
-        <th scope="col" class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
+        <th class="pl-2 md:pl-6 py-4 text-left text-sm md:text-lg text-gray-700">
           創建時間
         </th>
       </tr>

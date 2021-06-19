@@ -5,6 +5,7 @@ import YAML from 'yamljs';
 import auth from './auth';
 import user from './user';
 import announcement from './announcement';
+import exam from './exam';
 import course from './course';
 
 const router: Router = Router();
@@ -15,5 +16,6 @@ router.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 router.use('/auth', auth);
 router.use('/users', user);
 router.use('/announcements', announcement);
+router.use('/exam', exam);
 router.use('/courses', course);
 export default router;

@@ -1,17 +1,19 @@
 <template>
-  <div class="mb-4 flex">
-    <h1 class="font-medium text-2xl text-gray-900">課程列表</h1>
-    <div class="flex-1" />
-    <CourseForm @submit="createCourse" />
-  </div>
-  <p v-if="courses.isLoading">Loading...</p>
-  <p v-else-if="courses.isError">error</p>
-  <CourseTable v-else :tableData="courses.tableData" @edit-course="editCourse" @delete-course="deleteCourse" />
+  <div class="my-6 px-6">
+    <div class="mb-4 flex">
+      <h1 class="font-medium text-2xl text-gray-900">課程列表</h1>
+      <div class="flex-1" />
+      <CourseForm @submit="createCourse" />
+    </div>
+    <p v-if="courses.isLoading">Loading...</p>
+    <p v-else-if="courses.isError">error</p>
+    <CourseTable v-else :tableData="courses.tableData" @edit-course="editCourse" @delete-course="deleteCourse" />
 
-  <h1 class="font-medium text-2xl text-gray-900 mb-4 mt-8">使用者列表</h1>
-  <p v-if="users.isLoading">Loading...</p>
-  <p v-else-if="users.isError">error</p>
-  <UserTable v-else :tableData="users.tableData" :ROLE="ROLE" />
+    <h1 class="font-medium text-2xl text-gray-900 mb-4 mt-8">使用者列表</h1>
+    <p v-if="users.isLoading">Loading...</p>
+    <p v-else-if="users.isError">error</p>
+    <UserTable v-else :tableData="users.tableData" :ROLE="ROLE" />
+  </div>
 </template>
 
 <script lang='ts'>
@@ -53,9 +55,7 @@ export default defineComponent({
     });
 
     api.Course.getList()
-      .then((resp) => {
-        courses.tableData = resp.data;
-      })
+      .then((resp) => courses.tableData = resp.data)
       .catch(() => courses.isError = true)
       .finally(() => courses.isLoading = false);
 

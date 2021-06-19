@@ -1,10 +1,10 @@
 <template>
   <div>
     <button
-      v-if="btnText === '新增課程'"
+      v-if="btnText === '新增考古題'"
       type="button"
       @click="openModal"
-      class="pl-2 pr-3 py-2 text-blue-900 bg-blue-100 hover:bg-blue-200 border border-transparent rounded-md"
+      class="pl-2 pr-3 py-2 w-32 text-blue-900 bg-blue-100 hover:bg-blue-200 border border-transparent rounded-md"
     >
       <div class="flex items-center">
         <PlusIcon class="w-6 h-6 mr-0.5" />
@@ -34,9 +34,22 @@
               {{ btnText }}
             </DialogTitle>
             <div class="mt-2">
-              <text-field v-model="data.courseName" label='課程名稱' class="mt-2" />
-              <text-field v-model="data.deptName" label='所屬系所' class="mt-2" />
-              <text-field v-model="data.category" label='所屬分類' class="mt-2" />
+              <label for="select-course" class="block text-sm text-gray-700">課程名稱</label>
+              <select
+                v-model="data.courseId"
+                name="select-course"
+                class="h-8 w-full p-1 border border-gray-500 rounded"
+              >
+                <option :value="0">請選擇考古題所屬課程</option>
+                <option
+                  v-for="{ courseId, courseName } in courses"
+                  :key="courseId"
+                  :value="courseId"
+                >{{ courseName }}</option>
+              </select>
+              <text-field v-model.number="data.year" label='學年度' class="mt-2" />
+              <text-field v-model.number="data.semester" label='學期' class="mt-2" />
+              <text-field v-model="data.title" label='標題' class="mt-2" />
               <text-area v-model="data.description" label='詳細資訊' class="mt-2" />
             </div>
 
@@ -76,7 +89,7 @@ import TextArea from './UI/TextArea.vue';
 import { useRouter } from 'vue-router';
 
 export default {
-  name: 'CourseForm',
+  name: 'ExamForm',
   components: {
     Dialog,
     DialogOverlay,
@@ -86,12 +99,14 @@ export default {
     TextArea,
   },
   props: {
+    courses: Array,
     populateWith: {
       type: Object,
       default: () => ({
-        courseName: '',
-        deptName: '',
-        category: '',
+        courseId: 0,
+        year: null,
+        semester: null,
+        title: '',
         description: '',
       }),
     },
@@ -100,7 +115,7 @@ export default {
     const isOpen = ref(false);
     const data = ref(null);
     const btnText = computed(() => {
-      return props.populateWith.courseId ? '編輯' : '新增' + '課程';
+      return props.populateWith.courseId ? '編輯' : '新增' + '考古題';
     });
     const router = useRouter();
 
@@ -109,6 +124,10 @@ export default {
       isOpen,
       data,
       submit() {
+        if (!data.value.courseId) {
+          alert('請選擇課程');
+          return;
+        }
         const resolve = () => {
           router.go(0);
         };

@@ -1,4 +1,5 @@
 import { Express, Router } from 'express';
+import { OkPacket } from 'mysql2';
 import { isLoggedIn, isAdmin } from '../middlewares/authenticate';
 import db from '../models';
 
@@ -16,10 +17,15 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
-    const { userId } = <Express.User>req.user;
+    const { userId } = req.user as Express.User;
     const { title, content, pinned } = req.body;
-    await db.announcement.addAnnouncement(userId, title, content, pinned);
-    res.status(200).json();
+    const [result] = await db.announcement.addAnnouncement(
+      userId,
+      title,
+      content,
+      pinned,
+    ) as unknown as OkPacket[];
+    res.status(200).json({ annId: result.insertId });
   } catch (error) {
     res.status(500).json(error);
     next(error);
