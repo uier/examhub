@@ -1,6 +1,6 @@
 import { Express, Router } from 'express';
 import { OkPacket } from 'mysql2';
-import { isLoggedIn, isAdmin } from '../middlewares/authenticate';
+import { isLoggedIn } from '../middlewares/authenticate';
 import db from '../models';
 
 const router: Router = Router();
@@ -54,8 +54,8 @@ router.post('/', isLoggedIn, async (req, res, next) => {
 router.delete('/:comId', isLoggedIn, async (req, res, next) => {
   try {
     const publisher = await db.comment.getCommentPublisher(Number(req.params.comId));
-    const { userId } = req.user as Express.User;
-    if (userId === publisher || isAdmin) {
+    const { userId, role } = req.user as Express.User;
+    if (userId === publisher || role === 0) {
       const [rows] = await db.commentArea.delCommentAreaById(Number(req.params.comId));
       res.status(200).json(rows);
     } else {
