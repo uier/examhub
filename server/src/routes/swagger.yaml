@@ -229,7 +229,7 @@ paths:
     post:
       tags:
       - Exam
-      summary: 修改特定的考古題
+      summary: 新增考古題
       requestBody:
         description: 欲建立的考古題
         required: true
