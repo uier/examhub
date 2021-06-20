@@ -12,6 +12,9 @@
     </div>
     <div class="flex flex-col w-full lg:w-1/2 mb-8">
       <h1 class="font-medium text-2xl text-gray-900 mb-4">貢獻排行榜</h1>
+      <p v-if="ranking.isLoading">Loading...</p>
+      <p v-else-if="ranking.isError">error</p>
+      <RankingTable v-else :tableData="ranking.tableData" />
     </div>
     <!-- <button @click="create">Send</button> -->
   </div>
@@ -24,15 +27,21 @@ import { useStore } from '../store';
 import api from '../api';
 import AnnounceForm from '../components/Home/AnnounceForm.vue';
 import AnnounceTable from '../components/Home/AnnounceTable.vue';
+import RankingTable from '../components/Home/RankingTable.vue';
 
 export default defineComponent({
-  components: { AnnounceForm, AnnounceTable },
+  components: { AnnounceForm, AnnounceTable, RankingTable },
   name: 'Home',
   setup() {
     const store = useStore();
     const user = computed(() => store.state.user);
     const announcements = reactive({
       tableData: [] as Announcement.Info[],
+      isLoading: true,
+      isError: false,
+    });
+    const ranking = reactive({
+      tableData: [] as Ranking.Info[],
       isLoading: true,
       isError: false,
     });
@@ -53,12 +62,28 @@ export default defineComponent({
         })
         .catch(() => announcements.isError = true)
         .finally(() => announcements.isLoading = false);
+
+      ranking.isLoading = true;
+      api.Ranking.getList()
+        .then((resp) => {
+          const scores = resp.data.map(item => item.contribution);
+          const topTenScores = [...new Set(scores)].slice(0, 10);
+          ranking.tableData = resp.data
+            .map(item => ({
+              ...item,
+              rank: topTenScores.indexOf(item.contribution) + 1,
+            }))
+            .filter(({ rank }) => rank !== -1);
+        })
+        .catch(() => ranking.isError = true)
+        .finally(() => ranking.isLoading = false);
     };
 
     fetchData();
 
     return {
       announcements,
+      ranking,
       createAnnounce(data: Announcement.CreateBody, cb: any) {
         api.Announcement.create(data)
           .then(() => fetchData())

@@ -10,6 +10,10 @@ const Announcement = {
   delete: (id: number): AxiosPromise => agent.delete(`/announcements/${id}`),
 };
 
+const Ranking = {
+  getList: (): AxiosPromise<Ranking.Info[]> => agent.get('/ranking'),
+}
+
 const Exam = {
   get: (id: number): AxiosPromise<Exam.Info> => agent.get(`/exam/${id}`),
   getList: (courseId?: number): AxiosPromise<Exam.ListItem[]> => agent.get('/exam', { params: courseId ? { courseId } : {} }),
@@ -37,6 +41,7 @@ const Users = {
 
 export default {
   Announcement,
+  Ranking,
   Exam,
   Course,
   Auth,
