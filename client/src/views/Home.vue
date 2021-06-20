@@ -1,5 +1,5 @@
 <template>
-  <div class="my-6 px-6 flex flex-wrap lg:flex-nowrap lg:space-x-8">
+  <div class="my-6 px-10 flex flex-wrap lg:flex-nowrap lg:space-x-10">
     <div class="flex flex-col w-full lg:w-1/2 mb-8">
       <div class="mb-4 flex">
         <h1 class="font-medium text-2xl text-gray-900">公告</h1>

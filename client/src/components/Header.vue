@@ -1,6 +1,6 @@
 <template>
   <div class="bg-rose-300">
-    <div class="h-16 px-6 mx-auto flex items-stretch">
+    <div class="h-16 px-10 mx-auto flex items-stretch">
       <div class="flex justify-start items-center lg:w-0 lg:flex-1 mr-5 md:mr-10">
         <img class="h-8 w-auto sm:h-12" src="@/assets/logo.png" />
         <h1 class="hidden sm:inline text-xl ml-2 text-gray-700 font-medium">師大資工考古題</h1>
