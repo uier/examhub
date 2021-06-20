@@ -8,7 +8,7 @@
         <th class="pl-3 md:pl-6 py-4 text-left text-sm md:text-base text-gray-700">
           標題
         </th>
-        <th class="w-32 hidden sm:table-cell pl-6 py-4 text-left text-sm md:text-base text-gray-700">
+        <th class="w-24 hidden sm:table-cell pl-6 py-4 text-left text-sm md:text-base text-gray-700">
           發布者
         </th>
         <th class="w-24 pl-3 md:pl-6 py-4" />
