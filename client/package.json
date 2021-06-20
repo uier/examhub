@@ -1,101 +1,27 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.0",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "dev": "vite --port=8080",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.2.0",
+    "@heroicons/vue": "^1.0.1",
     "axios": "^0.21.1",
-    "core-js": "^3.6.5",
     "dayjs": "^1.10.5",
-    "element-plus": "^1.0.2-beta.28",
-    "vue": "^3.0.0",
-    "vue-class-component": "^8.0.0-0",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.9",
+    "vuex": "^4.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.19",
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-plugin-unit-jest": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "@vue/eslint-config-airbnb": "^5.0.2",
-    "@vue/eslint-config-typescript": "^7.0.0",
-    "@vue/test-utils": "^2.0.0-0",
-    "babel-plugin-component": "^1.1.1",
-    "eslint": "^6.7.2",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-vue": "^7.0.0",
-    "sass": "^1.32.13",
-    "sass-loader": "^10.1.1",
-    "typescript": "~4.1.5",
-    "vue-cli-plugin-element-plus": "0.0.13",
-    "vue-jest": "^5.0.0-0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "@vue/airbnb",
-      "@vue/typescript/recommended"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2020
-    },
-    "rules": {
-      "no-shadow": "off",
-      "@typescript-eslint/no-shadow": [
-        "error",
-        {
-          "allow": [
-            "state"
-          ]
-        }
-      ],
-      "@typescript-eslint/explicit-module-boundary-types": [
-        "warn",
-        {
-          "allowedNames": [
-            "setup"
-          ]
-        }
-      ]
-    },
-    "overrides": [
-      {
-        "files": [
-          "**/__tests__/*.{j,t}s?(x)",
-          "**/tests/unit/**/*.spec.{j,t}s?(x)"
-        ],
-        "env": {
-          "jest": true
-        }
-      }
-    ]
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "jest": {
-    "preset": "@vue/cli-plugin-unit-jest/presets/typescript-and-babel",
-    "transform": {
-      "^.+\\.vue$": "vue-jest"
-    }
+    "@vitejs/plugin-vue": "^1.2.3",
+    "@vue/compiler-sfc": "^3.0.5",
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.3.5",
+    "tailwindcss": "^2.1.4",
+    "typescript": "^4.3.2",
+    "vite": "^2.3.7",
+    "vue-tsc": "^0.0.24"
   }
 }

@@ -1,30 +1,29 @@
 <template>
-  <el-container>
-    <Header />
-    <el-main>
-      <router-view />
-    </el-main>
-    <el-footer></el-footer>
-  </el-container>
+  <Header />
+  <main class="w-full mx-auto">
+    <router-view />
+  </main>
 </template>
 
-<script>
-import { useStore } from '@/store';
-import { ActionTypes } from '@/store/types';
-// eslint-disable-next-line import/no-extraneous-dependencies
+<script lang='ts'>
+import { defineComponent } from 'vue'
+import { useStore } from './store';
+import { ActionTypes } from './store/types';
 import { onMounted } from '@vue/runtime-core';
-import Header from './components/Header.vue';
+import Header from './components/Header.vue'
 
-export default {
+export default defineComponent({
   name: 'App',
-  components: { Header },
+  components: {
+    Header
+  },
   setup() {
     const store = useStore();
     onMounted(() => {
       store.dispatch(ActionTypes.GET_USER);
     });
   },
-};
+})
 </script>
 
 <style>
@@ -32,10 +31,5 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  padding: 0;
-  margin: 0;
 }
 </style>
