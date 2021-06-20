@@ -1,17 +1,16 @@
-import passport from 'passport';
-import { Express, Router } from 'express';
+import { Router } from 'express';
 import db from '../models';
 
-const router: Router = Router() ;
+const router: Router = Router();
 
 router.get('/', async (req, res, next) => {
-    try {
-      const [rows] = await db.ranking.getRanking();
-      res.status(200).json(rows);
-    } catch (error) {
-      res.status(500).json(error);
-      next(error);
-    }
-  });
+  try {
+    const [rows] = await db.ranking.getRanking();
+    res.status(200).json(rows);
+  } catch (error) {
+    res.status(500).json(error);
+    next(error);
+  }
+});
 
 export default router;

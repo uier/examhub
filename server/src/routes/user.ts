@@ -1,10 +1,10 @@
 import { Express, Router } from 'express';
-import { isLoggedIn, isAdmin } from '../middlewares/authenticate';
+import { isLoggedIn, isEditor } from '../middlewares/authenticate';
 import db from '../models';
 
 const router: Router = Router();
 
-router.get('/', isLoggedIn, isAdmin, async (req, res, next) => {
+router.get('/', isEditor, async (req, res, next) => {
   try {
     const [rows] = await db.user.getAllUsers();
     res.status(200).json(rows);
@@ -25,7 +25,7 @@ router.get('/me', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.get('/:userId', isLoggedIn, isAdmin, async (req, res, next) => {
+router.get('/:userId', isLoggedIn, async (req, res, next) => {
   try {
     const { userId } = req.params;
     const [rows] = JSON.parse(JSON.stringify(await db.user.getUserById(Number(userId), true)));

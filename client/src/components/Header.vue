@@ -25,7 +25,7 @@
           :to="{ name: 'Manage' }"
           :class="{ 'bg-rose-200': route.name === 'Manage' }"
           class="md:text-lg text-gray-700 font-medium flex-1 hover:bg-rose-200 flex items-center justify-center"
-          v-if="user && user.role === 0"
+          v-if="user && user.role <= 1"
         >
           管理介面
         </router-link>

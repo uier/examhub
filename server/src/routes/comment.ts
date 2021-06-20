@@ -51,22 +51,6 @@ router.post('/', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.delete('/:comId', isLoggedIn, async (req, res, next) => {
-  try {
-    const publisher = await db.comment.getCommentPublisher(Number(req.params.comId));
-    const { userId, role } = req.user as Express.User;
-    if (userId === publisher || role === 0) {
-      const [rows] = await db.commentArea.delCommentAreaById(Number(req.params.comId));
-      res.status(200).json(rows);
-    } else {
-      res.sendStatus(403);
-    }
-  } catch (error) {
-    res.status(500).json(error);
-    next(error);
-  }
-});
-
 router.patch('/:comId', isLoggedIn, async (req, res, next) => {
   try {
     const publisher = await db.comment.getCommentPublisher(Number(req.params.comId));
@@ -76,6 +60,22 @@ router.patch('/:comId', isLoggedIn, async (req, res, next) => {
     if (userId === publisher) {
       const [result] = await db.comment.editComment(Number(comId), content);
       res.status(200).json(result);
+    } else {
+      res.sendStatus(403);
+    }
+  } catch (error) {
+    res.status(500).json(error);
+    next(error);
+  }
+});
+
+router.delete('/:comId', isLoggedIn, async (req, res, next) => {
+  try {
+    const publisher = await db.comment.getCommentPublisher(Number(req.params.comId));
+    const { userId, role } = req.user as Express.User;
+    if (userId === publisher || role <= 1) {
+      const [rows] = await db.commentArea.delCommentAreaById(Number(req.params.comId));
+      res.status(200).json(rows);
     } else {
       res.sendStatus(403);
     }
