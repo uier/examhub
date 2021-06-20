@@ -8,7 +8,7 @@
 import { defineComponent, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '../api';
-import ExamTable from '../components/ExamTable.vue';
+import ExamTable from '../components/Browse/ExamTable.vue';
 
 export default defineComponent({
   name: 'Exams',

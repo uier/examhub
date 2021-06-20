@@ -37,7 +37,7 @@
               <label for="select-course" class="block text-sm text-gray-700">課程名稱</label>
               <select
                 v-model="data.courseId"
-                name="select-course"
+                id="select-course"
                 class="h-8 w-full p-1 border border-gray-500 rounded"
               >
                 <option :value="0">請選擇考古題所屬課程</option>
@@ -84,8 +84,8 @@ import {
   DialogTitle,
 } from '@headlessui/vue';
 import { PlusIcon } from '@heroicons/vue/solid';
-import TextField from './UI/TextField.vue';
-import TextArea from './UI/TextArea.vue';
+import TextField from '../UI/TextField.vue';
+import TextArea from '../UI/TextArea.vue';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -115,7 +115,7 @@ export default {
     const isOpen = ref(false);
     const data = ref(null);
     const btnText = computed(() => {
-      return props.populateWith.courseId ? '編輯' : '新增' + '考古題';
+      return props.populateWith.docId ? '編輯' : '新增' + '考古題';
     });
     const router = useRouter();
 

@@ -2,7 +2,7 @@
   <div>
     <label :for="`text-area-${label}`" class="block text-sm text-gray-700">{{ label }}</label>
     <textarea
-      :name="`text-area-${label}`"
+      :id="`text-area-${label}`"
       class="h-32 w-full p-1 border border-gray-500 rounded"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"

@@ -20,9 +20,9 @@
 import { defineComponent, reactive } from 'vue';
 import dayjs from 'dayjs';
 import api from '../api';
-import UserTable from '../components/UserTable.vue';
-import CourseTable from '../components/CourseTable.vue';
-import CourseForm from '../components/CourseForm.vue';
+import UserTable from '../components/User/UserTable.vue';
+import CourseTable from '../components/Manage/CourseTable.vue';
+import CourseForm from '../components/Manage/CourseForm.vue';
 
 const ROLE = ['ADMIN', 'EDITOR', 'USER'];
 

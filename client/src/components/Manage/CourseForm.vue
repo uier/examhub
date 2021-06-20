@@ -65,15 +65,15 @@
 
 <script>
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import {
   Dialog,
   DialogOverlay,
   DialogTitle,
 } from '@headlessui/vue';
 import { PlusIcon } from '@heroicons/vue/solid';
-import TextField from './UI/TextField.vue';
-import TextArea from './UI/TextArea.vue';
-import { useRouter } from 'vue-router';
+import TextField from '../UI/TextField.vue';
+import TextArea from '../UI/TextArea.vue';
 
 export default {
   name: 'CourseForm',

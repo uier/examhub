@@ -1,7 +1,11 @@
 <template>
   <div class="my-6 px-6 flex flex-wrap lg:flex-nowrap lg:space-x-8">
     <div class="flex flex-col w-full lg:w-1/2 mb-8">
-      <h1 class="font-medium text-2xl text-gray-900 mb-4">公告</h1>
+      <div class="mb-4 flex">
+        <h1 class="font-medium text-2xl text-gray-900">公告</h1>
+        <div class="flex-1" />
+        <AnnounceForm @submit="createAnnounce" />
+      </div>
       <p v-if="announcements.isLoading">Loading...</p>
       <p v-else-if="announcements.isError">error</p>
       <table v-else class="min-w-full table-auto border-collapse rounded overflow-hidden shadow-md">
@@ -49,8 +53,10 @@
 import { ref, defineComponent, reactive } from 'vue';
 import dayjs from 'dayjs';
 import api from '../api';
+import AnnounceForm from '../components/Home/AnnounceForm.vue';
 
 export default defineComponent({
+  components: { AnnounceForm },
   name: 'Home',
   setup() {
     const announcements: {
@@ -79,12 +85,8 @@ export default defineComponent({
 
     return {
       announcements,
-      create() {
-        api.Announcement.create({
-          title: '平台使用手冊',
-          content: '1324567',
-          pinned: true,
-        });
+      createAnnounce(data: Announcement.CreateBody, resolve: any, reject: any) {
+        api.Announcement.create(data).then(resolve).catch(reject);
       },
     };
   },

@@ -1,8 +1,9 @@
 <template>
   <Header />
-  <main class="w-full mx-auto">
+  <main class="w-full mx-auto min-h-screen">
     <router-view />
   </main>
+  <Footer />
 </template>
 
 <script lang='ts'>
@@ -11,12 +12,11 @@ import { useStore } from './store';
 import { ActionTypes } from './store/types';
 import { onMounted } from '@vue/runtime-core';
 import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
 
 export default defineComponent({
   name: 'App',
-  components: {
-    Header
-  },
+  components: { Header, Footer },
   setup() {
     const store = useStore();
     onMounted(() => {

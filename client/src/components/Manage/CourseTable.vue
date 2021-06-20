@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import CourseForm from '../components/CourseForm.vue';
+import CourseForm from './CourseForm.vue';
 
 export default {
   props: ['tableData'],

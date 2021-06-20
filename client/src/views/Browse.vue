@@ -19,7 +19,7 @@ import { useRoute } from 'vue-router';
 import api from '../api';
 import Sidebar from './Sidebar.vue';
 import Breadcrumb from './Breadcrumb.vue';
-import ExamForm from '../components/ExamForm.vue';
+import ExamForm from '../components/Browse/ExamForm.vue';
 
 export default defineComponent({
   name: 'Browse',
