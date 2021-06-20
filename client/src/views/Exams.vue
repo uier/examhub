@@ -1,7 +1,12 @@
 <template>
   <p v-if="exams.isLoading">Loading...</p>
   <p v-else-if="exams.isError">error</p>
-  <ExamTable v-else :tableData="exams.tableData" />
+  <ExamTable
+    v-else
+    :tableData="exams.tableData"
+    @edit-exam="editExam"
+    @delete-exam="deleteExam"
+  />
 </template>
 
 <script lang='ts'>
@@ -44,6 +49,14 @@ export default defineComponent({
 
     return {
       exams,
+      editExam() {
+        alert('Sorry~ 我們還沒做這個功能耶 > <');
+      },
+      deleteExam(docId: number) {
+        api.Exam.delete(docId)
+          .then(() => fetchData(Number(route.params.courseId)))
+          .catch(() => alert('刪除失敗了 QQ'));
+      },
     };
   },
 });

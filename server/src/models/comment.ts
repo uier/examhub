@@ -2,13 +2,15 @@ import dayjs from 'dayjs';
 import db, { pool } from '.';
 
 const getAllComments = () => {
-  const sql = 'SELECT `comId`, `replyId`, `userId`, `content`, `createTime`, `lastUpdateTime` FROM `comment`';
-  return pool.promise().query(sql);
+  const cols = ['comId', 'replyId', 'userId', 'content', 'createTime', 'lastUpdateTime'];
+  const sql = 'SELECT ?? FROM `comment` inner join (SELECT `userId`, `name` FROM `user`) as U USING (userId)';
+  return pool.promise().query(sql, [cols]);
 };
 
 const getCommentByAreaId = (AreaId: number) => {
-  const sql = 'SELECT `comId`, `replyId`, `userId`, `content`, `createTime`, `lastUpdateTime` FROM `comment` WHERE `replyId` = ?';
-  return pool.promise().query(sql, AreaId);
+  const cols = ['comId', 'replyId', 'userId', 'name', 'content', 'createTime', 'lastUpdateTime'];
+  const sql = 'SELECT ?? FROM `comment` inner join (SELECT `userId`, `name` FROM `user`) as U USING (userId) WHERE `replyId` = ?';
+  return pool.promise().query(sql, [cols, AreaId]);
 };
 
 const addComment = async (userId: number, replyId: number, content: string) => {

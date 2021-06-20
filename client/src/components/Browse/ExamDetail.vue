@@ -22,12 +22,24 @@
               {{ data.title }}
             </DialogTitle>
 
-            <div class="mt-2 mb-4 text-xs">
-              <div class="text-gray-500">
-                Posted on: <span class="text-gray-800">{{ data.createTime }}</span>
+            <div class="flex justify-between items-center">
+              <div class="mt-2 mb-4 text-xs">
+                <div class="text-gray-500">
+                  Posted on: <span class="text-gray-800">{{ data.createTime }}</span>
+                </div>
+                <!-- <div class="text-gray-500">
+                  Posted by: <span class="text-gray-800">{{ data.userId }}</span>
+                </div> -->
               </div>
-              <div class="text-gray-500">
-                Posted by: <span class="text-gray-800">{{ data.userId }}</span>
+              <div class="flex space-x-2">
+                <button class="focus:outline-none" type="button" @click="voteExam(1)">
+                  <LikeIcon v-if="score === 1" class="h-6 w-6 text-green-500" />
+                  <LikeIcon v-else class="h-6 w-6 text-gray-500" />
+                </button>
+                <button class="focus:outline-none" type="button" @click="voteExam(-1)">
+                  <DislikeIcon v-if="score === -1" class="h-6 w-6 text-rose-500" />
+                  <DislikeIcon v-else class="h-6 w-6 text-gray-500" />
+                </button>
               </div>
             </div>
 
@@ -45,34 +57,34 @@
             <p v-else-if="comments.isError">error</p>
             <template
               v-else
-              v-for="({ comId, userId, content, createTime, replies }, index) in comments.data"
+              v-for="({ comId, name, content, createTime, replies }, index) in comments.data"
               :key="comId"
             >
               <CommentItem
                 class="m-2"
-                :name="userId"
+                :name="name"
                 :content="content"
                 :createTime="createTime"
               />
               <CommentItem
                 v-for="reply in replies"
                 :key="reply.comId"
-                class="m-2 ml-10"
-                :name="reply.userId"
+                class="m-2 ml-10 md:ml-20"
+                :name="reply.name"
                 :content="reply.content"
                 :createTime="reply.createTime"
               />
               <button
                 v-if="!isOpenReply[index]"
-                class="ml-10 text-xs text-blue-900"
+                class="ml-10 md:ml-20 text-xs text-blue-900 text-opacity-75"
                 type="button"
                 @click="isOpenReply[index] = !isOpenReply[index]"
               >
-                留言
+                回覆
               </button>
               <CommentInput
                 v-else
-                class="ml-10"
+                class="ml-10 md:ml-20"
                 @submit="(...args) => createComment(comId, ...args)"
               />
 
@@ -101,6 +113,8 @@ import { XIcon } from '@heroicons/vue/solid';
 import TextArea from '../UI/TextArea.vue';
 import CommentItem from '../UI/CommentItem.vue';
 import CommentInput from '../UI/CommentInput.vue';
+import LikeIcon from '../Icon/LikeIcon.vue';
+import DislikeIcon from '../Icon/DislikeIcon.vue';
 import api from '../../api';
 
 export default defineComponent({
@@ -113,14 +127,17 @@ export default defineComponent({
     TextArea,
     CommentItem,
     CommentInput,
+    LikeIcon,
+    DislikeIcon,
   },
   props: ['data'],
-  setup(props) {
+  setup(props, { emit }) {
     const comments = reactive({
       data: [] as Comment.Info[],
       isLoading: true,
       isError: false,
     });
+    const score = ref(0);
     const isOpenReply = ref([]) as Ref<boolean[]>;
     const isOpen = ref(false);
 
@@ -143,8 +160,12 @@ export default defineComponent({
 
     fetchData();
 
+    api.Exam.getVote(props.data.docId)
+      .then((resp) => score.value = resp.data.score);
+
     return {
       comments,
+      score,
       isOpenReply,
       createComment(replyId: number, content: string, cb: any) {
         api.Comment.create({ replyId, content })
@@ -153,6 +174,11 @@ export default defineComponent({
             fetchData();
           })
           .catch(() => alert('留言失敗了 QQ'))
+      },
+      voteExam(scoreValue: number) {
+        api.Exam.vote(props.data.docId, scoreValue)
+          .then(() => score.value = scoreValue)
+          .catch(() => alert('評分失敗了 QQ'));
       },
       isOpen,
       openModal() {

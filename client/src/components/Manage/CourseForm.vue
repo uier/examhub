@@ -114,7 +114,7 @@ export default {
         };
         const reject = (error) => {
           console.log(error);
-          alert(`${btnText}失敗`);
+          alert(`${btnText}失敗了 QQ`);
         };
         emit('submit', data.value, resolve, reject);
       },

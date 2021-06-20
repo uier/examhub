@@ -79,7 +79,7 @@ export default defineComponent({
         }).then(() => {
           alert('霹靂卡霹靂拉拉波波莉娜貝貝魯多');
           router.go(0);
-        }).catch(() => alert('ㄨㄚˊ 變身失敗ㄌ'));
+        }).catch(() => alert('ㄨㄚˊ 變身失敗了 QQ'));
       }
     };
   },

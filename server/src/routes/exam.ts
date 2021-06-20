@@ -82,6 +82,23 @@ router.delete('/:docId', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.get('/:docId/vote', isLoggedIn, async (req, res, next) => {
+  try {
+    const { userId } = req.user as Express.User;
+    const docId = Number(req.params.docId);
+    const result = await db.vote.getVote(userId, docId);
+    const [rows] = JSON.parse(JSON.stringify(result));
+    if (rows.length > 0) {
+      res.status(200).json(rows[0]);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    res.status(500).json(error);
+    next(error);
+  }
+});
+
 router.post('/:docId/vote', isLoggedIn, async (req, res, next) => {
   try {
     const { userId } = req.user as Express.User;

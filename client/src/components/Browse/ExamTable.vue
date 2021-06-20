@@ -48,9 +48,9 @@
         <td class="pl-3 md:pl-6 py-4 text-sm md:text-base text-gray-900">
           <div class="flex flex-col items-center space-y-0.5">
             <ExamDetail :data="tableData[index]" />
-            <template v-if="user && user.role === 0">
-              <!-- <AnnounceForm :populateWith="tableData[index]" @submit="(...args) => $emit('edit-exam', ...args)" /> -->
-              <button type="button" class="text-rose-900 text-base" @click="$emit('delete-exan', exam)">
+            <template v-if="user && user.role <= 1">
+              <ExamForm :populateWith="tableData[index]" @submit="(...args) => $emit('edit-exam', ...args)" />
+              <button type="button" class="text-rose-900 text-base" @click="$emit('delete-exan', docId)">
                 刪除
               </button>
             </template>
@@ -63,9 +63,10 @@
 
 <script>
 import ExamDetail from './ExamDetail.vue';
+import ExamForm from './ExamForm.vue';
 
 export default {
   props: ['tableData', 'user'],
-  components: { ExamDetail },
+  components: { ExamDetail, ExamForm },
 }
 </script>

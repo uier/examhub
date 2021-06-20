@@ -82,7 +82,7 @@ export default defineComponent({
     };
 
     const deleteCourse = (courseId: number) => {
-      alert('Sorry~ 我們還沒做刪除功能耶，歡迎發 PR > <');
+      alert('Sorry~ 我們還沒做這個功能耶 > <');
     };
 
     return {

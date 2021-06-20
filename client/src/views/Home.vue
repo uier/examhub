@@ -90,7 +90,7 @@ export default defineComponent({
           .then(cb)
           .catch((error) => {
             console.log(error)
-            alert('哇咧，新增失敗了 QQ')
+            alert('新增失敗了 QQ')
           });
       },
       editAnnounce(data: Announcement.CreateBody & { annId: number }, cb: any) {
@@ -101,7 +101,7 @@ export default defineComponent({
           .then(cb)
           .catch((error) => {
             console.log(error)
-            alert('哇咧，修改失敗了 QQ')
+            alert('修改失敗了 QQ')
           });
       },
       deleteAnnounce(annId: number) {
@@ -109,7 +109,7 @@ export default defineComponent({
         if (!confirm) return;
         api.Announcement.delete(annId)
           .then(() => fetchData())
-          .catch(() => alert('哇咧，刪除公告失敗了 QQ'));
+          .catch(() => alert('刪除失敗了 QQ'));
       },
       fetchData,
       user,

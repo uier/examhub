@@ -3,7 +3,7 @@
     <div class="flex-1">
       <textarea
         v-model="value"
-        class="border border-gray-800 rounded-lg w-full p-2 text-sm"
+        class="border border-gray-800 rounded-lg w-full p-2 text-sm resize-none"
         placeholder="留言"
         ref="commentInput"
         :rows="1"
