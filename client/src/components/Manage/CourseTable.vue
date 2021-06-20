@@ -40,9 +40,9 @@
           </div>
         </td>
         <td class="pl-2 md:pl-6 py-4 text-sm md:text-base text-blue-900">
-          <div class="flex flex-col items-center">
+          <div class="flex flex-col items-center space-y-0.5">
             <CourseForm :populateWith="tableData[index]" @submit="(...args) => $emit('edit-course', ...args)" />
-            <button type="button" class="mt-0.5 text-rose-900 text-base" @click="$emit('delete-course', courseId)">
+            <button type="button" class="text-rose-900 text-base" @click="$emit('delete-course', courseId)">
               刪除
             </button>
           </div>

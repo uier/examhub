@@ -47,16 +47,14 @@ router.get('/:annId', async (req, res, next) => {
   }
 });
 
-router.patch('/:courseId', isEditor, async (req, res, next) => {
+router.patch('/:annId', isEditor, async (req, res, next) => {
   try {
-    const { courseId } = req.params;
-    const {
-      courseName, deptName, category, description,
-    } = req.body;
-    const result = await db.course.getCourseById(Number(courseId));
+    const { annId } = req.params;
+    const { title, content, pinned } = req.body;
+    const result = await db.announcement.getAnnouncementById(Number(annId));
     const [rows] = JSON.parse(JSON.stringify(result));
     if (rows.length > 0) {
-      await db.course.editCourseById(Number(courseId), courseName, deptName, category, description);
+      await db.announcement.editAnnouncementById(Number(annId), title, content, pinned);
       res.sendStatus(200);
     } else {
       res.sendStatus(404);

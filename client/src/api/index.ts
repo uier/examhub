@@ -4,8 +4,10 @@ const agent = axios.create({ baseURL: '/api' });
 
 const Announcement = {
   get: (id: number): AxiosPromise<Announcement.Info> => agent.get(`/announcements/${id}`),
-  getList: (): AxiosPromise<Announcement.ListItem[]> => agent.get('/announcements'),
+  getList: (): AxiosPromise<Announcement.Info[]> => agent.get('/announcements'),
   create: (body: Announcement.CreateBody): AxiosPromise<number> => agent.post('/announcements', body),
+  modify: (id: number, body: Announcement.CreateBody): AxiosPromise => agent.patch(`/announcements/${id}`, body),
+  delete: (id: number): AxiosPromise => agent.delete(`/announcements/${id}`),
 };
 
 const Exam = {
