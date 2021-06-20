@@ -1,7 +1,7 @@
 <template>
-  <div class="h-1/5 mx-6 pt-8 pb-16 border-t flex items-center">
+  <div class="h-1/5 mx-6 pt-8 pb-16 border-t flex items-center text-gray-700">
     <div class="flex-1 text-xs flex items-center">
-      © 2021 ExamHub
+      ExamHub on GitHub
       <a href="https://github.com/Uier/examhub">
         <img class="h-5 ml-2" src="https://github.githubassets.com/images/modules/site/icons/footer/github-mark.svg" alt="github">
       </a>

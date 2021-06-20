@@ -5,6 +5,7 @@
       type="text"
       :id="`text-field-${label}`"
       class="h-8 w-full p-1 border border-gray-500 rounded"
+      :placeholder="placeholder"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
     />
@@ -14,6 +15,6 @@
 <script>
 export default {
   name: 'TextField',
-  props: ['label', 'modelValue']
+  props: ['label', 'modelValue', 'placeholder']
 }
 </script>

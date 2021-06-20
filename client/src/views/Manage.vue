@@ -1,5 +1,5 @@
 <template>
-  <div class="my-6 px-6">
+  <div class="my-6 px-10">
     <div class="mb-4 flex">
       <h1 class="font-medium text-2xl text-gray-900">課程列表</h1>
       <div class="flex-1" />
