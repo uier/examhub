@@ -48,7 +48,7 @@ router.post('/', isLoggedIn, isAdmin, async (req, res, next) => {
   }
 });
 
-router.delete('/:courseId', isAdmin, async (req, res, next) => {
+router.delete('/:courseId', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     const result = await db.course.getCourseById(Number(req.params.courseId));
     const [rows] = JSON.parse(JSON.stringify(result));
@@ -64,7 +64,7 @@ router.delete('/:courseId', isAdmin, async (req, res, next) => {
   }
 });
 
-router.patch('/:courseId', isAdmin, async (req, res, next) => {
+router.patch('/:courseId', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     const { courseId } = req.params;
     const {

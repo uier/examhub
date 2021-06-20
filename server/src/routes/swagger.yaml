@@ -203,6 +203,19 @@ paths:
       responses:
         200:
           description: 成功
+    delete:
+      tags:
+      - Course
+      summary: 刪除一個課程
+      parameters:
+      - in: path
+        name: courseId
+        required: true
+        schema:
+          type: number
+      responses:
+        200:
+          description: 成功
   /exam:
     get:
       tags:
