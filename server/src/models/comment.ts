@@ -22,7 +22,8 @@ const addComment = async (userId: number, replyId: number, content: string) => {
     lastUpdateTime: dayjs().format(),
   };
   const sql = 'INSERT INTO `comment` SET ?';
-  return pool.promise().query(sql, newComment);
+  await pool.promise().query(sql, newComment);
+  return comId;
 };
 
 const getCommentPublisher = async (comId: number) => {
