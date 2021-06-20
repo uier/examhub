@@ -1,5 +1,5 @@
 <template>
-  <div class="my-6 px-6">
+  <div class="my-6 px-10">
     <div class="mb-4 flex">
       <h1 class="font-medium text-2xl text-gray-900">課程列表</h1>
       <div class="flex-1" />
@@ -83,7 +83,6 @@ export default defineComponent({
 
     const deleteCourse = (courseId: number) => {
       alert('Sorry~ 我們還沒做刪除功能耶，歡迎發 PR > <');
-      // const confirm = window.confirm('確定要刪除ㄇ？');
     };
 
     return {

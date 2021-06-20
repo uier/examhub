@@ -24,12 +24,8 @@ router.get('/google/fail', (req, res) => {
   // res.redirect('//localhost:8080/login?err=true');
 });
 
-router.get('/logout', isLoggedIn, (req, res, next) => {
+router.get('/logout', isLoggedIn, (req, res) => {
   req.logout();
-  req.session.destroy((err) => {
-    res.sendStatus(500);
-    next(err);
-  });
   res.sendStatus(200);
 });
 

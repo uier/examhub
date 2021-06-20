@@ -47,10 +47,10 @@
                   :value="courseId"
                 >{{ courseName }}</option>
               </select>
-              <text-field v-model.number="data.year" label='學年度' class="mt-2" />
-              <text-field v-model.number="data.semester" label='學期' class="mt-2" />
-              <text-field v-model="data.title" label='標題' class="mt-2" />
-              <text-area v-model="data.description" label='詳細資訊' class="mt-2" />
+              <text-field v-model.number="data.year" label='學年度' class="mt-2" placeholder="例如：109、110" />
+              <text-field v-model.number="data.semester" label='學期' class="mt-2" placeholder="例如：1、2" />
+              <text-field v-model="data.title" label='標題' class="mt-2" placeholder="例如：「期中考」、「第一次小考」" />
+              <text-area v-model="data.description" label='詳細資訊' class="mt-2" placeholder="補充說明這份考古題的其他內容" />
             </div>
 
             <div class="mt-4">

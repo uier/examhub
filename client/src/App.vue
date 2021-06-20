@@ -1,9 +1,9 @@
 <template>
   <Header />
-  <main class="w-full mx-auto min-h-screen">
+  <main class="w-full mx-auto min-h-screen flex flex-col justify-between">
     <router-view />
+    <Footer />
   </main>
-  <Footer />
 </template>
 
 <script lang='ts'>

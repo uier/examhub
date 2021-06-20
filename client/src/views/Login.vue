@@ -8,7 +8,7 @@
       </div>
       <div class="mt-6 flex justify-center">
         <button class="mx-auto" @click="handleClick">
-          <img src="@/assets/googleSignin.png" alt="google signin">
+          <img class="h-12" src="@/assets/googleSignin@2x.png" alt="google signin">
         </button>
       </div>
     </div>

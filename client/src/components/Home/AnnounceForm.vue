@@ -4,10 +4,10 @@
       v-if="btnText === '新增公告'"
       type="button"
       @click="openModal"
-      class="pl-2 pr-3 py-2 text-blue-900 bg-blue-100 hover:bg-blue-200 border border-transparent rounded-md"
+      class="pl-2 pr-3 py-1.5 text-blue-900 bg-blue-100 hover:bg-blue-200 border border-transparent rounded-md"
     >
-      <div class="flex items-center">
-        <PlusIcon class="w-6 h-6 mr-0.5" />
+      <div class="flex items-center text-sm">
+        <PlusIcon class="w-4 h-4 mr-0.5" />
         {{ btnText }}
       </div>
     </button>
@@ -83,7 +83,7 @@ import TextField from '../UI/TextField.vue';
 import TextArea from '../UI/TextArea.vue';
 
 export default {
-  name: 'CourseForm',
+  name: 'AnnounceForm',
   components: {
     Dialog,
     DialogOverlay,
@@ -115,20 +115,14 @@ export default {
       isOpen,
       data,
       submit() {
-        const resolve = () => {
-          router.go(0);
-        };
-        const reject = (error) => {
-          console.log(error);
-          alert(`${btnText}失敗`);
-        };
-        emit('submit', data.value, resolve, reject);
+        emit('submit', data.value, this.closeModal);
       },
       closeModal() {
         isOpen.value = false;
       },
       openModal() {
-        data.value = Object.assign({}, props.populateWith);
+        const { annId, title, content, pinned } = props.populateWith;
+        data.value = { annId, title, content, pinned: Boolean(pinned)};
         isOpen.value = true;
       },
     };

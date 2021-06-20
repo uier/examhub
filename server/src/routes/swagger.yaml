@@ -43,6 +43,8 @@ paths:
                       type: number
                     title:
                       type: string
+                    content:
+                      type: string
                     pinned:
                       type: boolean
                     createTime:
@@ -95,6 +97,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Announcement'
+    patch:
+      tags:
+      - Announcement
+      summary: 修改特定的公告
+      description: Require role <= 1
+      parameters:
+        - in: path
+          name: annId
+          required: true
+          schema:
+            type: number
+          description: 欲修改的公告的 addId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnouncementCreate'
+      responses:
+        200:
+          description: 成功
     delete:
       tags:
       - Announcement
