@@ -36,12 +36,12 @@ router.post('/', isLoggedIn, async (req, res, next) => {
     const checkResult = await db.commentArea.checkAreaIdExist(Number(replyId));
     const [check] = JSON.parse(JSON.stringify(checkResult));
     if (check.length > 0) {
-      const [result] = await db.comment.addComment(
+      const comId = await db.comment.addComment(
         userId,
         replyId,
         content,
       ) as unknown as OkPacket[];
-      res.status(200).json(result.insertId);
+      res.status(200).json(comId);
     } else {
       res.sendStatus(404);
     }

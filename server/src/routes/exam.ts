@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
       res.status(200).json(rows);
     } else {
       // check if courseId exist
-      const checkResult = await db.exam.checkCourseIdExist(Number(courseId));
+      const checkResult = await db.course.getCourseById(Number(courseId));
       const [check] = JSON.parse(JSON.stringify(checkResult));
       if (check.length > 0) {
         const result = await db.exam.getExamByCourseId(Number(courseId));
@@ -35,15 +35,22 @@ router.post('/', isLoggedIn, async (req, res, next) => {
     const {
       courseId, year, semester, title, description,
     } = req.body;
-    const [result] = await db.exam.addExam(
-      userId,
-      courseId,
-      year,
-      semester,
-      title,
-      description,
-    ) as unknown as OkPacket[];
-    res.status(200).json({ docId: result.insertId });
+    const checkResult = await db.course.getCourseById(Number(courseId));
+    const [check] = JSON.parse(JSON.stringify(checkResult));
+    if ( check.length > 0) {
+      const docId = await db.exam.addExam(
+        userId,
+        courseId,
+        year,
+        semester,
+        title,
+        description,
+      ) as unknown as OkPacket[];
+      res.status(200).json({ docId: docId });
+    } else {
+      res.sendStatus(404);
+    }
+   
   } catch (error) {
     res.status(500).json(error);
     next(error);
