@@ -19,6 +19,7 @@ const Exam = {
   getList: (courseId?: number): AxiosPromise<Exam.ListItem[]> => agent.get('/exam', { params: courseId ? { courseId } : {} }),
   create: (body: Exam.CreateBody): AxiosPromise<number> => agent.post('/exam', body),
   delete: (id: number): AxiosPromise => agent.delete(`/exam/${id}`),
+  vote: (id: number, score: number) => agent.post(`/exam/${id}/vote`, { score }),
 };
 
 const Course = {

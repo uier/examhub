@@ -25,7 +25,7 @@
           此課程尚無考古題，成為第一個上傳的人吧！
         </td>
       </tr>
-      <tr v-for="{ docId, year, semester, title, description, upvote, downvote } in tableData" :key="docId">
+      <tr v-for="{ docId, year, semester, title, description, score } in tableData" :key="docId">
         <td class="pl-3 md:pl-6 py-4 text-sm md:text-base text-gray-900">
           {{ year }}
         </td>
@@ -41,7 +41,7 @@
           </div>
         </td>
         <td class="pl-3 md:pl-6 py-4 text-sm md:text-base text-gray-900">
-          {{ upvote - downvote }}
+          {{ score }}
         </td>
       </tr>
     </tbody>
