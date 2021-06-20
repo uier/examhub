@@ -22,6 +22,11 @@ const Exam = {
   vote: (id: number, score: number) => agent.post(`/exam/${id}/vote`, { score }),
 };
 
+const Comment = {
+  getList: (areaId: number): AxiosPromise<Comment.Info[]> => agent.get('/comments', { params: { areaId } }),
+  create: (body: Comment.Info): AxiosPromise<number> => agent.post('/comments', body),
+};
+
 const Course = {
   get: (id: number): AxiosPromise<Course.Info> => agent.get(`/courses/${id}`),
   getList: (): AxiosPromise<Course.Info[]> => agent.get('/courses'),
@@ -42,6 +47,7 @@ const Users = {
 
 export default {
   Announcement,
+  Comment,
   Ranking,
   Exam,
   Course,

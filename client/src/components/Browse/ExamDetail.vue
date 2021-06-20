@@ -39,6 +39,33 @@
               Last updated on: <span class="text-gray-800">{{ data.lastUpdateTime }}</span>
             </div>
 
+            <hr />
+
+            <p v-if="comments.isLoading">Loading...</p>
+            <p v-else-if="comments.isError">error</p>
+            <template
+              v-else
+              v-for="{ comId, userId, content, createTime, replies } in comments.data"
+              :key="comId"
+            >
+              <CommentItem
+                class="m-2"
+                :name="userId"
+                :content="content"
+                :createTime="createTime"
+              />
+              <CommentItem
+                v-for="reply in replies"
+                :key="reply.comId"
+                class="m-2 ml-10"
+                :name="reply.userId"
+                :content="reply.content"
+                :createTime="reply.createTime"
+              />
+            </template>
+
+            <CommentInput @submit="(...args) => createComment(data.docId, ...args)" />
+
           </div>
         </div>
       </div>
@@ -46,8 +73,8 @@
   </div>
 </template>
 
-<script>
-import { ref } from 'vue';
+<script lang='ts'>
+import { ref, reactive, defineComponent } from 'vue';
 import {
   Dialog,
   DialogOverlay,
@@ -55,8 +82,11 @@ import {
 } from '@headlessui/vue';
 import { XIcon } from '@heroicons/vue/solid';
 import TextArea from '../UI/TextArea.vue';
+import CommentItem from '../UI/CommentItem.vue';
+import CommentInput from '../UI/CommentInput.vue';
+import api from '../../api';
 
-export default {
+export default defineComponent({
   name: 'ExamDetail',
   components: {
     Dialog,
@@ -64,12 +94,46 @@ export default {
     DialogTitle,
     XIcon,
     TextArea,
+    CommentItem,
+    CommentInput,
   },
   props: ['data'],
-  setup() {
+  setup(props) {
+    const comments = reactive({
+      data: [] as Comment.Info[],
+      isLoading: true,
+      isError: false,
+    });
     const isOpen = ref(false);
 
+    const fetchData = () => {
+      api.Comment.getList(props.data.docId)
+        .then((resp) => {
+          comments.data = resp.data;
+          Promise.all(resp.data.map((item: Comment.Info) => api.Comment.getList(item.comId)))
+            .then((resps) => {
+              comments.data = comments.data.map((item, index) => ({
+                ...item,
+                replies: resps[index].data,
+              }));
+            });
+        })
+        .catch(() => comments.isError = true)
+        .finally(() => comments.isLoading = false);
+    }
+
+    fetchData();
+
     return {
+      comments,
+      createComment(replyId: number, content: string, cb: any) {
+        api.Comment.create({ replyId, content })
+          .then(() => {
+            cb();
+            fetchData();
+          })
+          .catch(() => alert('留言失敗了 QQ'))
+      },
       isOpen,
       openModal() {
         isOpen.value = true;
@@ -79,5 +143,5 @@ export default {
       },
     };
   },
-}
+});
 </script>

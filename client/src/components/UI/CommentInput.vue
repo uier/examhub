@@ -3,7 +3,7 @@
     <div class="flex-1">
       <textarea
         v-model="value"
-        class="border border-gray-800 rounded w-full p-2 text-sm h-16"
+        class="border border-gray-800 rounded w-full p-2 text-sm"
         placeholder="留言"
       />
     </div>
@@ -11,7 +11,7 @@
       <button
         type="button"
         class="px-4 py-2 text-sm text-blue-900 bg-blue-100 border-transparent rounded-md hover:bg-blue-200"
-        @click="$emit('submit', value)"
+        @click="$emit('submit', value, () => value = '')"
       >
         送出
       </button>
