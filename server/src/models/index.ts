@@ -2,6 +2,7 @@ import mysql from 'mysql2';
 import user from './user';
 import schema from './schema';
 import announcement from './announcement';
+import ranking from './ranking';
 import exam from './exam';
 import commentArea from './comment-area';
 import comment from './comment';
@@ -28,6 +29,7 @@ export default {
   // export the models below
   user,
   announcement,
+  ranking,
   exam,
   commentArea,
   comment,
