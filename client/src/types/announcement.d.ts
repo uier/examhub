@@ -8,14 +8,6 @@ declare namespace Announcement {
     lastUpdateTime: string
   }
 
-  export interface ListItem {
-    annId: number
-    title: string
-    pinned: boolean
-    createTime: string
-    lastUpdateTime: string
-  }
-
   interface CreateBody {
     title: string
     content: string

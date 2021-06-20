@@ -83,7 +83,7 @@ import TextField from '../UI/TextField.vue';
 import TextArea from '../UI/TextArea.vue';
 
 export default {
-  name: 'CourseForm',
+  name: 'AnnounceForm',
   components: {
     Dialog,
     DialogOverlay,
@@ -115,20 +115,14 @@ export default {
       isOpen,
       data,
       submit() {
-        const resolve = () => {
-          router.go(0);
-        };
-        const reject = (error) => {
-          console.log(error);
-          alert(`${btnText}失敗`);
-        };
-        emit('submit', data.value, resolve, reject);
+        emit('submit', data.value, this.closeModal);
       },
       closeModal() {
         isOpen.value = false;
       },
       openModal() {
-        data.value = Object.assign({}, props.populateWith);
+        const { annId, title, content, pinned } = props.populateWith;
+        data.value = { annId, title, content, pinned: Boolean(pinned)};
         isOpen.value = true;
       },
     };

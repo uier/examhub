@@ -44,7 +44,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '../api';
 import { useStore } from '../store';
@@ -58,10 +58,10 @@ export default defineComponent({
   components: { TextField },
   setup() {
     const store = useStore();
+    const user = computed(() => store.state.user);
     const router = useRouter();
-    const { user } = store.state;
-    const transRole = ref(user?.role);
-    const transName = ref(user?.name);
+    const transRole = ref(user.value?.role);
+    const transName = ref(user.value?.name);
     return {
       user,
       ROLE,
@@ -72,8 +72,8 @@ export default defineComponent({
       transRole,
       transName,
       transform() {
-        if (!user) return;
-        api.Users.modify(user.userId, {
+        if (!user.value) return;
+        api.Users.modify(user.value.userId, {
           role: transRole.value,
           name: transName.value,
         }).then(() => {
