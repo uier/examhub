@@ -11,7 +11,7 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
-  secret: 'secret',
+  secret: process.env.SECRET as string,
   resave: false,
   saveUninitialized: true,
   cookie: {
