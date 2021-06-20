@@ -17,6 +17,8 @@
         <th class="w-24 pl-3 md:pl-6 py-4 text-left text-sm md:text-base text-gray-700">
           評分
         </th>
+        <th class="w-24 pl-3 md:pl-6 py-4 text-left text-sm md:text-base text-gray-700">
+        </th>
       </tr>
     </thead>
     <tbody class="bg-gay-50 divide-y divide-gray-100">
@@ -25,7 +27,7 @@
           此課程尚無考古題，成為第一個上傳的人吧！
         </td>
       </tr>
-      <tr v-for="{ docId, year, semester, title, description, score } in tableData" :key="docId">
+      <tr v-for="({ docId, year, semester, title, description, score }, index) in tableData" :key="docId">
         <td class="pl-3 md:pl-6 py-4 text-sm md:text-base text-gray-900">
           {{ year }}
         </td>
@@ -43,13 +45,27 @@
         <td class="pl-3 md:pl-6 py-4 text-sm md:text-base text-gray-900">
           {{ score }}
         </td>
+        <td class="pl-3 md:pl-6 py-4 text-sm md:text-base text-gray-900">
+          <div class="flex flex-col items-center space-y-0.5">
+            <ExamDetail :data="tableData[index]" />
+            <template v-if="user && user.role === 0">
+              <!-- <AnnounceForm :populateWith="tableData[index]" @submit="(...args) => $emit('edit-exam', ...args)" /> -->
+              <button type="button" class="text-rose-900 text-base" @click="$emit('delete-exan', exam)">
+                刪除
+              </button>
+            </template>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <script>
+import ExamDetail from './ExamDetail.vue';
+
 export default {
-  props: ['tableData']
+  props: ['tableData', 'user'],
+  components: { ExamDetail },
 }
 </script>
