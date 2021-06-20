@@ -39,8 +39,6 @@ export default [
     description         varchar(4096) default '',
     createTime          datetime not null,
     lastUpdateTime      datetime not null,
-    upvote              int not null default 0,
-    downvote            int not null default 0,
     folderPath          varchar(1024) not null,
     primary key (docId),
     foreign key (docId) references comment_area(areaId) on update cascade on delete cascade,
