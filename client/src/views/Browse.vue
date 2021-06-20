@@ -6,6 +6,7 @@
         <Breadcrumb :selectedCourse="selectedCourse" />
         <ExamForm :courses="courses.data" @submit="createExam" />
       </div>
+      <hr class="mb-3" />
       <!-- <pre class="text-xs">{{ JSON.stringify(folder, null, 2) }}</pre> -->
       <router-view />
     </div>

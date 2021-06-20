@@ -16,7 +16,7 @@
         </router-link>
         <router-link
           :to="{ name: 'Browse' }"
-          :class="{ 'bg-rose-200': route.name === 'Browse' }"
+          :class="{ 'bg-rose-200': route.name === 'Browse' || route.name === 'Exams' }"
           class="md:text-lg text-gray-700 font-medium flex-1 hover:bg-rose-200 flex items-center justify-center"
         >
           考古題
