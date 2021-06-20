@@ -330,6 +330,29 @@ paths:
       responses:
         200:
           description: 成功
+  /exam/{docId}/vote:
+    post:
+      tags:
+      - Exam
+      summary: 評分特定的考古題，若已評過分則會覆蓋
+      parameters:
+        - in: path
+          name: docId
+          required: true
+          schema:
+            type: number
+          description: 欲評分的考古題的 docId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                score:
+                  type: number
+      responses:
+        200:
+          description: 成功
   /comments:
     get:
       tags:

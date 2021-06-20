@@ -2,13 +2,18 @@ import dayjs from 'dayjs';
 import db, { pool } from '.';
 
 const getAllExams = () => {
-  const sql = 'SELECT `docId`, `courseId`, `year`, `semester`, `title`, `description`, `userId`, `createTime`, `lastUpdateTime`, `upvote`, `downvote`, `folderPath` FROM `document`';
+  const sql = 'SELECT `document`.`docId`, `courseId`, `year`, `semester`, `title`, `description`,  `document`.`userId`, `createTime`, `lastUpdateTime`, `folderPath`, COALESCE(SUM(score),0) AS `score` FROM `document` LEFT JOIN `vote` ON `document`.`docId` = `vote`.`docId` GROUP BY `document`.`docId`';
   return pool.promise().query(sql);
 };
 
 const getExamById = (docId: number) => {
-  const sql = 'SELECT `docId`, `courseId`, `year`, `semester`, `title`, `description`, `userId`, `createTime`, `lastUpdateTime`, `upvote`, `downvote`, `folderPath` FROM `document` WHERE `docId` = ?';
+  const sql = 'SELECT `document`.`docId`, `courseId`, `year`, `semester`, `title`, `description`,  `document`.`userId`, `createTime`, `lastUpdateTime`, `folderPath`, COALESCE(SUM(score),0)AS `score` FROM `document` LEFT JOIN `vote` ON `document`.`docId` = `vote`.`docId` WHERE `document`.`docId` = ? GROUP BY `document`.`docId`';
   return pool.promise().query(sql, [docId]);
+};
+
+const getExamByCourseId = (courseId: number) => {
+  const sql = 'SELECT `document`.`docId`, `courseId`, `year`, `semester`, `title`, `description`,  `document`.`userId`, `createTime`, `lastUpdateTime`, `folderPath`, COALESCE(SUM(score),0) AS `score` FROM `document` LEFT JOIN `vote` ON `document`.`docId` = `vote`.`docId` WHERE `courseId` = ? GROUP BY `document`.`docId`';
+  return pool.promise().query(sql, [courseId]);
 };
 
 const addExam = async (
@@ -34,23 +39,13 @@ const addExam = async (
     lastUpdateTime: dayjs().format(),
   };
   const sql = 'INSERT INTO `document` SET ?';
-  return pool.promise().query(sql, newExam);
-};
-
-const checkCourseIdExist = (courseId: number) => {
-  const sql = 'SELECT `courseId` FROM `course` WHERE `courseId` = ?';
-  return pool.promise().query(sql, [courseId]);
-};
-
-const getExamByCourseId = (courseId: number) => {
-  const sql = 'SELECT `docId`, `courseId`, `year`, `semester`, `title`, `description`, `userId`, `createTime`, `lastUpdateTime`, `upvote`, `downvote`, `folderPath` FROM `document` WHERE `courseId` = ?';
-  return pool.promise().query(sql, [courseId]);
+  await pool.promise().query(sql, newExam);
+  return docId;
 };
 
 export default {
   getAllExams,
   getExamById,
   addExam,
-  checkCourseIdExist,
   getExamByCourseId,
 };

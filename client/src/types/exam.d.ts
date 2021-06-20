@@ -11,8 +11,7 @@ declare namespace Exam {
     userId: number
     createTime: string
     lastUpdateTime: string
-    upvote: number
-    downvote: number
+    score: number
     folderPath: string
   }
 
