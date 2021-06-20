@@ -13,6 +13,9 @@ module.exports = {
         '1/3': '33.3333%',
         '1/4': '25%',
       },
+      minHeight: {
+        'screen-2/3': '66vh',
+      },
     },
   },
   variants: {

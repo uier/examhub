@@ -24,7 +24,7 @@ const Exam = {
 
 const Comment = {
   getList: (areaId: number): AxiosPromise<Comment.Info[]> => agent.get('/comments', { params: { areaId } }),
-  create: (body: Comment.Info): AxiosPromise<number> => agent.post('/comments', body),
+  create: (body: Comment.CreateBody): AxiosPromise<number> => agent.post('/comments', body),
 };
 
 const Course = {

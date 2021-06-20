@@ -3,8 +3,11 @@
     <div class="flex-1">
       <textarea
         v-model="value"
-        class="border border-gray-800 rounded w-full p-2 text-sm"
+        class="border border-gray-800 rounded-lg w-full p-2 text-sm"
         placeholder="留言"
+        ref="commentInput"
+        :rows="1"
+        @keyup="resize"
       />
     </div>
     <div>
@@ -20,12 +23,21 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 export default {
   setup() {
     const value = ref('');
-    return { value };
+    const commentInput = ref(null);
+
+    return {
+      value,
+      commentInput,
+      resize() {
+        commentInput.value.style.cssText = 'height: auto;';
+        commentInput.value.style.cssText = `height: ${commentInput.value.scrollHeight}px;`;
+      },
+    };
   }
 }
 </script>

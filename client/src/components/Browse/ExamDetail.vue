@@ -31,7 +31,7 @@
               </div>
             </div>
 
-            <div class="mt-2">
+            <div class="mt-2 min-h-screen-2/3">
               <p class="whitespace-pre-line">{{ data.description }}</p>
             </div>
 
@@ -45,7 +45,7 @@
             <p v-else-if="comments.isError">error</p>
             <template
               v-else
-              v-for="{ comId, userId, content, createTime, replies } in comments.data"
+              v-for="({ comId, userId, content, createTime, replies }, index) in comments.data"
               :key="comId"
             >
               <CommentItem
@@ -62,9 +62,26 @@
                 :content="reply.content"
                 :createTime="reply.createTime"
               />
+              <button
+                v-if="!isOpenReply[index]"
+                class="ml-10 text-xs text-blue-900"
+                type="button"
+                @click="isOpenReply[index] = !isOpenReply[index]"
+              >
+                留言
+              </button>
+              <CommentInput
+                v-else
+                class="ml-10"
+                @submit="(...args) => createComment(comId, ...args)"
+              />
+
             </template>
 
-            <CommentInput @submit="(...args) => createComment(data.docId, ...args)" />
+            <CommentInput
+              class="mt-4"
+              @submit="(...args) => createComment(data.docId, ...args)"
+            />
 
           </div>
         </div>
@@ -74,7 +91,7 @@
 </template>
 
 <script lang='ts'>
-import { ref, reactive, defineComponent } from 'vue';
+import { ref, Ref, reactive, defineComponent } from 'vue';
 import {
   Dialog,
   DialogOverlay,
@@ -104,6 +121,7 @@ export default defineComponent({
       isLoading: true,
       isError: false,
     });
+    const isOpenReply = ref([]) as Ref<boolean[]>;
     const isOpen = ref(false);
 
     const fetchData = () => {
@@ -116,6 +134,7 @@ export default defineComponent({
                 ...item,
                 replies: resps[index].data,
               }));
+              isOpenReply.value = new Array(comments.data.length).fill(false);
             });
         })
         .catch(() => comments.isError = true)
@@ -126,6 +145,7 @@ export default defineComponent({
 
     return {
       comments,
+      isOpenReply,
       createComment(replyId: number, content: string, cb: any) {
         api.Comment.create({ replyId, content })
           .then(() => {
