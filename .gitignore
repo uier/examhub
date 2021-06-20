@@ -12,8 +12,12 @@ oauth2.keys.json
 
 # build output
 dist/
+dist-ssr/
 
 # log
 npm-debug.log
 request.log
 error.log
+
+# local files
+*.local
