@@ -38,7 +38,7 @@
           登入
         </router-link>
         <router-link
-          :to="{ name: 'User', params: { id: user.id } }"
+          :to="{ name: 'User' }"
           :class="{ 'bg-rose-200': route.name === 'User' }"
           class="md:text-lg text-gray-700 font-medium flex-1 hover:bg-rose-200 flex items-center justify-center"
           v-else

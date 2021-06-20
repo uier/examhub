@@ -40,16 +40,16 @@ router.get('/:userId', isLoggedIn, isAdmin, async (req, res, next) => {
   }
 });
 
-router.patch('/:userId', isLoggedIn, isAdmin, async (req, res, next) => {
+router.patch('/:userId', isLoggedIn, async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const { role } = req.body;
-    if (typeof role !== 'number') {
-      res.status(400).send('Require an object having `role` number value in request body.');
+    const { name, role } = req.body;
+    if (typeof name !== 'string' || typeof role !== 'number') {
+      res.status(400).send('Invalid request body, wrong types.');
     } else if (role < 0 || role > 2) {
       res.status(400).send('`role` must be a number in range [0, 2].');
     } else {
-      await db.user.modifyUser(Number(userId), role);
+      await db.user.modifyUser(Number(userId), name, role);
       res.sendStatus(200);
     }
   } catch (error) {

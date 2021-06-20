@@ -18,9 +18,9 @@ const getUserByEmail = (email: string) => {
   return pool.promise().query(sql, [email]);
 };
 
-const modifyUser = (userId: number, role: number) => {
-  const sql = 'UPDATE `user` SET `role` = ? WHERE `userId` = ?';
-  return pool.promise().query(sql, [role, userId]);
+const modifyUser = (userId: number, name: string, role: number) => {
+  const sql = 'UPDATE `user` SET `name` = ?, `role` = ? WHERE `userId` = ?';
+  return pool.promise().query(sql, [name, role, userId]);
 };
 
 const findOrCreate = async (userInfo: Profile['_json']) => {

@@ -30,6 +30,7 @@ const Users = {
   get: (id: number): AxiosPromise<User.Detail> => agent.get(`/users/${id}`),
   getList: (): AxiosPromise<User.Detail[]> => agent.get('/users'),
   getMe: (): AxiosPromise<User.Info> => agent.get('/users/me'),
+  modify: (id: number, body: Partial<User.Info>): AxiosPromise => agent.patch(`/users/${id}`, body),
 };
 
 export default {
