@@ -16,7 +16,6 @@
       <p v-else-if="ranking.isError">error</p>
       <RankingTable v-else :tableData="ranking.tableData" />
     </div>
-    <!-- <button @click="create">Send</button> -->
   </div>
 </template>
 

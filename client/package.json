@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "vite --port=8080",
     "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "custom": "vite build"
   },
   "dependencies": {
     "@headlessui/vue": "^1.2.0",
