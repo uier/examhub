@@ -20,7 +20,7 @@ const Exam = {
   create: (body: Exam.CreateBody): AxiosPromise<number> => agent.post('/exam', body),
   delete: (id: number): AxiosPromise => agent.delete(`/exam/${id}`),
   vote: (id: number, score: number): AxiosPromise => agent.post(`/exam/${id}/vote`, { score }),
-  getVote: (id: number): AxiosPromise<{ docId: number, userId: number, score: number }> => agent.get(`/exam/${id}/vote`),
+  getVote: (id: number): AxiosPromise<{ score: number }> => agent.get(`/exam/${id}/vote`),
 };
 
 const Comment = {

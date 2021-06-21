@@ -16,8 +16,14 @@ const modifyVote = (userId: number, docId: number, score: number) => {
   return pool.promise().query(sql, [score, userId, docId]);
 };
 
+const deleteVote = (userId: number, docId: number) => {
+  const sql = 'DELETE FROM `vote` WHERE userId = ? AND docId = ?';
+  return pool.promise().query(sql, [userId, docId]);
+};
+
 export default {
   addVote,
   getVote,
   modifyVote,
+  deleteVote,
 };

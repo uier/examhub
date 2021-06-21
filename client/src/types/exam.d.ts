@@ -9,6 +9,7 @@ declare namespace Exam {
 
   interface Info extends CreateBody {
     userId: number
+    name: string
     createTime: string
     lastUpdateTime: string
     score: number

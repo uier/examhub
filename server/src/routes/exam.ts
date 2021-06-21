@@ -91,7 +91,7 @@ router.get('/:docId/vote', isLoggedIn, async (req, res, next) => {
     if (rows.length > 0) {
       res.status(200).json(rows[0]);
     } else {
-      res.sendStatus(404);
+      res.status(200).json({ score: 0 });
     }
   } catch (error) {
     res.status(500).json(error);
@@ -113,8 +113,13 @@ router.post('/:docId/vote', isLoggedIn, async (req, res, next) => {
         result = await db.vote.getVote(userId, docId);
         [rows] = JSON.parse(JSON.stringify(result));
         if (rows.length > 0) {
-          await db.vote.modifyVote(userId, docId, score);
-          res.sendStatus(200);
+          if (rows[0].score === score) {
+            await db.vote.deleteVote(userId, docId);
+            res.sendStatus(200);
+          } else {
+            await db.vote.modifyVote(userId, docId, score);
+            res.sendStatus(200);
+          }
         } else {
           await db.vote.addVote(userId, docId, score);
           res.sendStatus(200);

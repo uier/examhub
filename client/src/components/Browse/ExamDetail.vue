@@ -27,19 +27,26 @@
                 <div class="text-gray-500">
                   Posted on: <span class="text-gray-800">{{ data.createTime }}</span>
                 </div>
-                <!-- <div class="text-gray-500">
-                  Posted by: <span class="text-gray-800">{{ data.userId }}</span>
-                </div> -->
+                <div class="text-gray-500">
+                  Posted by: <span class="text-gray-800">{{ data.name }}</span>
+                </div>
               </div>
-              <div class="flex space-x-2">
-                <button class="focus:outline-none" type="button" @click="voteExam(1)">
-                  <LikeIcon v-if="score === 1" class="h-6 w-6 text-green-500" />
-                  <LikeIcon v-else class="h-6 w-6 text-gray-500" />
-                </button>
-                <button class="focus:outline-none" type="button" @click="voteExam(-1)">
-                  <DislikeIcon v-if="score === -1" class="h-6 w-6 text-rose-500" />
-                  <DislikeIcon v-else class="h-6 w-6 text-gray-500" />
-                </button>
+              <div class="flex flex-col items-center space-y-2">
+                <div>
+                  <span class="font-mono text-sm text-gray-500">
+                    目前評分：{{ data.score }}
+                  </span>
+                </div>
+                <div class="flex space-x-2">
+                  <button class="focus:outline-none" type="button" @click="voteExam(1)">
+                    <LikeIcon v-if="score === 1" class="h-6 w-6 text-green-500" />
+                    <LikeIcon v-else class="h-6 w-6 text-gray-500" />
+                  </button>
+                  <button class="focus:outline-none" type="button" @click="voteExam(-1)">
+                    <DislikeIcon v-if="score === -1" class="h-6 w-6 text-rose-500" />
+                    <DislikeIcon v-else class="h-6 w-6 text-gray-500" />
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -177,7 +184,7 @@ export default defineComponent({
       },
       voteExam(scoreValue: number) {
         api.Exam.vote(props.data.docId, scoreValue)
-          .then(() => score.value = scoreValue)
+          .then(() => score.value = scoreValue === score.value ? 0 : scoreValue)
           .catch(() => alert('評分失敗了 QQ'));
       },
       isOpen,
