@@ -21,7 +21,7 @@ export default {
   name: 'Login',
   methods: {
     handleClick() {
-      window.location = 'http://localhost:3000/api/auth/google';
+      window.location = 'http://examhub.uier.tw:3000/api/auth/google';
     },
   },
 };

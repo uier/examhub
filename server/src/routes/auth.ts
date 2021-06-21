@@ -16,7 +16,7 @@ router.get('/google/callback',
   }));
 
 router.get('/google/success', isLoggedIn, (req, res) => {
-  res.redirect('/');
+  res.redirect('http://examhub.uier.tw:3000');
 });
 
 router.get('/google/fail', (req, res) => {
