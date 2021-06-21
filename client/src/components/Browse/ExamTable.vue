@@ -25,7 +25,15 @@
             {{ description }}
           </div>
         </td>
-        <td class="my-td">{{ score }}</td>
+        <td class="my-td">
+          <div class="flex items-center">
+            <LikeIcon v-if="score > 0" class="h-5 w-5 mr-1 text-gray-500" />
+            <DislikeIcon v-if="score < 0" class="h-5 w-5 mr-1 text-gray-500" />
+            <span class="font-mono text-gray-700 text-sm">
+              {{ score > 0 ? score: -score }}
+            </span>
+          </div>
+        </td>
         <td class="my-td">
           <div class="flex flex-col items-center space-y-0.5">
             <ExamDetail :data="tableData[index]" />
@@ -45,9 +53,11 @@
 <script>
 import ExamDetail from './ExamDetail.vue';
 import ExamForm from './ExamForm.vue';
+import LikeIcon from '../Icon/LikeIcon.vue';
+import DislikeIcon from '../Icon/DislikeIcon.vue';
 
 export default {
   props: ['tableData', 'user'],
-  components: { ExamDetail, ExamForm },
+  components: { ExamDetail, ExamForm, LikeIcon, DislikeIcon },
 }
 </script>
