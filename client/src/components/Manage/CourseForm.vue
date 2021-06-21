@@ -4,10 +4,10 @@
       v-if="btnText === '新增課程'"
       type="button"
       @click="openModal"
-      class="pl-2 pr-3 py-2 text-blue-900 bg-blue-100 hover:bg-blue-200 border border-transparent rounded-md"
+      class="py-2 btn-add"
     >
       <div class="flex items-center">
-        <PlusIcon class="w-6 h-6 mr-0.5" />
+        <FolderPlusIcon class="w-6 h-6 mr-0.5" />
         {{ btnText }}
       </div>
     </button>
@@ -28,7 +28,7 @@
             &#8203;
           </span>
           <div
-            class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
+            class="dialog-container"
           >
             <DialogTitle as="h3" class="text-lg text-gray-900">
               {{ btnText }}
@@ -43,7 +43,7 @@
             <div class="mt-4">
               <button
                 type="button"
-                class="px-4 py-2 text-sm text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200"
+                class="btn-submit"
                 @click="submit"
               >
                 送出
@@ -71,7 +71,7 @@ import {
   DialogOverlay,
   DialogTitle,
 } from '@headlessui/vue';
-import { PlusIcon } from '@heroicons/vue/solid';
+import FolderPlusIcon from '../Icon/FolderPlusIcon.vue';
 import TextField from '../UI/TextField.vue';
 import TextArea from '../UI/TextArea.vue';
 
@@ -81,7 +81,7 @@ export default {
     Dialog,
     DialogOverlay,
     DialogTitle,
-    PlusIcon,
+    FolderPlusIcon,
     TextField,
     TextArea,
   },

@@ -1,35 +1,23 @@
 <template>
-  <table class="min-w-full table-auto border-collapse rounded overflow-hidden shadow-md">
+  <table class="table-auto my-table">
     <thead class="bg-rose-200">
       <tr>
-        <th class="pl-3 md:pl-6 py-4 text-left text-sm md:text-base text-gray-700">
-          名次
-        </th>
-        <th class="pl-3 md:pl-6 py-4 text-left text-sm md:text-base text-gray-700">
-          名稱
-        </th>
-        <th class="pl-3 md:pl-6 py-4 text-left text-sm md:text-base text-gray-700">
-          貢獻值
-        </th>
+        <th class="my-th">名次</th>
+        <th class="my-th">名稱</th>
+        <th class="my-th">貢獻值</th>
         <th class="pl-3 md:pl-6 py-4" />
       </tr>
     </thead>
-    <tbody class="bg-white divide-y divide-gray-100">
+    <tbody class="my-tbody">
       <tr v-if="tableData.length === 0">
-        <td colspan="3" class="pl-3 md:pl-6 py-4 text-sm md:text-base text-gray-900">
+        <td colspan="3" class="my-td">
           尚無資料
         </td>
       </tr>
       <tr v-for="({ rank, name, contribution }, index) in tableData" :key="index">
-        <td class="pl-3 md:pl-6 py-4 text-sm md:text-base text-gray-900">
-          {{ rank }}
-        </td>
-        <td class="pl-3 md:pl-6 py-4 text-sm text-gray-900">
-          {{ name }}
-        </td>
-        <td class="pl-3 md:pl-6 py-4 text-sm md:text-base text-gray-900">
-          {{ contribution }}
-        </td>
+        <td class="my-td">{{ rank }}</td>
+        <td class="my-td">{{ name }}</td>
+        <td class="my-td">{{ contribution }}</td>
       </tr>
     </tbody>
   </table>

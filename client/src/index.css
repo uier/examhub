@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
+
+.my-th {
+  @apply pl-3 md:pl-6 py-4 text-left text-sm md:text-base text-gray-700;
+}
+
+.my-td {
+  @apply pl-3 md:pl-6 py-4 text-sm md:text-base text-gray-900;
+}
+
+.my-table {
+  @apply min-w-full border-collapse rounded overflow-hidden shadow-md;
+}
+
+.my-tbody {
+  @apply divide-y divide-gray-100;
+}
+
+.btn-add {
+  @apply pl-2 pr-3 text-blue-900 bg-blue-100 hover:bg-blue-200 border border-transparent rounded-md;
+}
+
+.btn-submit {
+  @apply px-4 py-2 text-sm text-blue-900 bg-blue-100 hover:bg-blue-200 border border-transparent rounded-md;
+}
+
+.dialog-container {
+  @apply inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl
+}
+
 @tailwind utilities;
