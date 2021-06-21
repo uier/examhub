@@ -1,4 +1,5 @@
 import express from 'express';
+import http from 'http';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
 import session from 'express-session';
@@ -47,6 +48,6 @@ app.use(Sentry.Handlers.errorHandler());
 
 app.use(errorLogger);
 
-app.listen(port);
+http.createServer(app).listen(port);
 
 module.exports = app;
