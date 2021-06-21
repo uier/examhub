@@ -9,7 +9,7 @@ import model from './models';
 import router from './routes';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -48,6 +48,8 @@ app.use(Sentry.Handlers.errorHandler());
 
 app.use(errorLogger);
 
-http.createServer(app).listen(port);
+http.createServer(app).listen(port, '0.0.0.0', () => {
+  console.log('server start');
+});
 
 module.exports = app;
