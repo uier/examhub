@@ -16,12 +16,11 @@ router.get('/google/callback',
   }));
 
 router.get('/google/success', isLoggedIn, (req, res) => {
-  res.redirect('//localhost:8080');
+  res.redirect('/');
 });
 
 router.get('/google/fail', (req, res) => {
   res.send('慘，不知道為什麼失敗了...');
-  // res.redirect('//localhost:8080/login?err=true');
 });
 
 router.get('/logout', isLoggedIn, (req, res) => {
