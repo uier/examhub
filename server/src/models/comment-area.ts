@@ -7,7 +7,7 @@ const addcommentArea = async () => {
   return Number(result.insertId);
 };
 
-const checkAreaIdExist = async (areaId: number) => {
+const checkAreaIdExist = (areaId: number) => {
   const sql = 'SELECT `areaId` from `comment_area` where `areaId` = ?';
   return pool.promise().query(sql, areaId);
 };

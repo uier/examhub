@@ -36,7 +36,7 @@ const editAnnouncementById = (annId: number, title: string, content: string, pin
   return pool.promise().query(sql, [newAnnouncement, annId]);
 };
 
-const delAnnouncementById = async (annId: number) => {
+const delAnnouncementById = (annId: number) => {
   const sql = 'DELETE FROM `announcement` WHERE `annId` = ?';
   return pool.promise().query(sql, [annId]);
 };

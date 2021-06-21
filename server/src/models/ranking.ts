@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { pool } from '.';
 
 const getRanking = () => {
@@ -7,5 +6,5 @@ const getRanking = () => {
 };
 
 export default {
-    getRanking,
+  getRanking,
 };
