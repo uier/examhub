@@ -2,20 +2,22 @@ import dayjs from 'dayjs';
 import db, { pool } from '.';
 
 const getAllExams = () => {
-  const sql = 'SELECT `document`.`docId`, `courseId`, `year`, `semester`, `title`, `description`,  `document`.`userId`, `createTime`, `lastUpdateTime`, `folderPath`, COALESCE(SUM(score),0) AS `score` FROM `document` LEFT JOIN `vote` ON `document`.`docId` = `vote`.`docId` GROUP BY `document`.`docId`';
-  return pool.promise().query(sql);
+  const cols = ['document.docId', 'courseId', 'year', 'semester', 'title', 'description',  'document.userId', 'user.name', 'document.createTime', 'lastUpdateTime', 'FolderPath'];
+  const sql = 'SELECT ??, COALESCE(SUM(score),0) AS `score` FROM `document` LEFT JOIN `vote` ON `document`.`docId` = `vote`.`docId` LEFT JOIN `user` ON `document`.`userId` = `user`.`userId` GROUP BY `document`.`docId`';
+  return pool.promise().query(sql, [cols]);
 };
 
 const getExamById = (docId: number) => {
-  const sql = 'SELECT `document`.`docId`, `courseId`, `year`, `semester`, `title`, `description`,  `document`.`userId`, `createTime`, `lastUpdateTime`, `folderPath`, COALESCE(SUM(score),0)AS `score` FROM `document` LEFT JOIN `vote` ON `document`.`docId` = `vote`.`docId` WHERE `document`.`docId` = ? GROUP BY `document`.`docId`';
-  return pool.promise().query(sql, [docId]);
+  const cols = ['document.docId', 'courseId', 'year', 'semester', 'title', 'description',  'document.userId', 'user.name', 'document.createTime', 'lastUpdateTime', 'FolderPath'];
+  const sql = 'SELECT ??, COALESCE(SUM(score),0)AS `score` FROM `document` LEFT JOIN `vote` ON `document`.`docId` = `vote`.`docId` LEFT JOIN `user` ON `document`.`userId` = `user`.`userId` WHERE `document`.`docId` = ? GROUP BY `document`.`docId`';
+  return pool.promise().query(sql, [cols, docId]);
 };
 
 const getExamByCourseId = (courseId: number) => {
-  const sql = 'SELECT `document`.`docId`, `courseId`, `year`, `semester`, `title`, `description`,  `document`.`userId`, `createTime`, `lastUpdateTime`, `folderPath`, COALESCE(SUM(score),0) AS `score` FROM `document` LEFT JOIN `vote` ON `document`.`docId` = `vote`.`docId` WHERE `courseId` = ? GROUP BY `document`.`docId`';
-  return pool.promise().query(sql, [courseId]);
+  const cols = ['document.docId', 'courseId', 'year', 'semester', 'title', 'description',  'document.userId', 'user.name', 'document.createTime', 'lastUpdateTime', 'FolderPath'];
+  const sql = 'SELECT ??, COALESCE(SUM(score),0) AS `score` FROM `document` LEFT JOIN `vote` ON `document`.`docId` = `vote`.`docId` LEFT JOIN `user` ON `document`.`userId` = `user`.`userId` WHERE `courseId` = ? GROUP BY `document`.`docId`';
+  return pool.promise().query(sql, [cols, courseId]);
 };
-
 const addExam = async (
   userId: number,
   courseId: number,
