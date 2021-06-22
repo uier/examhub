@@ -3,13 +3,13 @@ import db, { pool } from '.';
 
 const getAllComments = () => {
   const cols = ['comId', 'replyId', 'userId', 'content', 'createTime', 'lastUpdateTime'];
-  const sql = 'SELECT ?? FROM `comment` inner join (SELECT `userId`, `name` FROM `user`) as U USING (userId)';
+  const sql = 'SELECT ?? FROM `comment` inner join (SELECT `userId`, `name` FROM `user`) as U USING (userId) OEDER BY `createTime` DESC';
   return pool.promise().query(sql, [cols]);
 };
 
 const getCommentByAreaId = (AreaId: number) => {
   const cols = ['comId', 'replyId', 'userId', 'name', 'content', 'createTime', 'lastUpdateTime'];
-  const sql = 'SELECT ?? FROM `comment` inner join (SELECT `userId`, `name` FROM `user`) as U USING (userId) WHERE `replyId` = ?';
+  const sql = 'SELECT ?? FROM `comment` inner join (SELECT `userId`, `name` FROM `user`) as U USING (userId) WHERE `replyId` = ? ORDER BY `createTime` DESC';
   return pool.promise().query(sql, [cols, AreaId]);
 };
 
