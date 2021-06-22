@@ -4,7 +4,8 @@
       <textarea
         v-model="value"
         class="border border-gray-800 rounded-lg w-full p-2 text-sm resize-none"
-        placeholder="留言"
+        :placeholder="!user ? '請先登入' : '留言'"
+        :disabled="!user"
         ref="commentInput"
         :rows="1"
         @keyup="resize"
@@ -23,16 +24,20 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useStore } from '../../store';
 
 export default {
   setup() {
     const value = ref('');
     const commentInput = ref(null);
+    const store = useStore();
+    const user = computed(() => store.state.user);
 
     return {
       value,
       commentInput,
+      user,
       resize() {
         commentInput.value.style.cssText = 'height: auto;';
         commentInput.value.style.cssText = `height: ${commentInput.value.scrollHeight}px;`;
