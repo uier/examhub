@@ -35,14 +35,14 @@ export default [
   ON comment FOR EACH ROW \
     BEGIN \
       UPDATE user SET contribution = contribution + 1 \
-      WHERE NEW.replyId in (SELECT docId as replyId FROM document) and NEW.userId not in (SELECT userId FROM comment WHERE comment.replyId = NEW.replyId); \
+      WHERE NEW.replyId in (SELECT docId as replyId FROM document) AND NEW.userId NOT IN (SELECT userId FROM comment WHERE comment.replyId = NEW.replyId); \
     END'
   ,
   'DROP TRIGGER IF EXISTS deleteComment; \
   CREATE TRIGGER deleteComment AFTER DELETE \
   ON comment FOR EACH ROW \
     BEGIN \
-      UPDATE user SET contribution = contribution - 1 WHERE user.userId = OLD.userId and OLD.userId NOT IN (SELECT userId FROM comment WHERE comment.docId = OLD.docId); \
+      UPDATE user SET contribution = contribution - 1 WHERE user.userId = OLD.userId AND OLD.userId NOT IN (SELECT userId FROM comment WHERE comment.docId = OLD.docId); \
     END'
   ,
   'DROP TRIGGER IF EXISTS addDocument; \
@@ -53,10 +53,10 @@ export default [
     END'
   ,
   'DROP TRIGGER IF EXISTS delDocument; \
-  CREATE TRIGGER delDocument AFTER DELETE \
-  ON document FOR EACH ROW \
+  CREATE TRIGGER delDocument BEFORE DELETE \
+  ON comment_area FOR EACH ROW \
     BEGIN \
-      UPDATE user SET contribution = contribution - 5 WHERE user.userId = OLD.userId; \
+      UPDATE user SET contribution = contribution - 5 WHERE EXISTS (SELECT docId from document WHERE OLD.areaId = docId AND user.userId = document.userId); \
     END'
   ,
 ];
