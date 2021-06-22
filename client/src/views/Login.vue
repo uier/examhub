@@ -16,15 +16,19 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang='ts'>
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'Login',
-  methods: {
-    handleClick() {
-      window.location = 'http://examhub.uier.tw:3000/api/auth/google';
-    },
-  },
-};
+  setup() {
+    return {
+      handleClick() {
+        window.location.href = '/api/auth/google';
+      },
+    }
+  }
+});
 </script>
 
 <style scoped>
