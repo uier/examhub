@@ -2,9 +2,10 @@
   <div class="min-h-full flex items-center justify-center py-12 px-4">
     <div class="flex flex-col">
       <div class="text-lg text-center">帳號資訊</div>
-      <p class="mt-2 my-2">Username: {{ user.name }}</p>
-      <p class="my-2">User ID: {{ user.userId }}</p>
-      <p class="my-2">Role: {{ ROLE[user.role] }}</p>
+      <p class="mt-2 my-2">名稱: {{ user.name }}</p>
+      <p class="my-2">ID: {{ user.userId }}</p>
+      <p class="my-2">角色: {{ ROLE[user.role] }}</p>
+      <p class="my-2">貢獻值: {{ contribution }}</p>
       <button
         type="button"
         class="px-4 py-2 mt-5 font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none"
@@ -44,7 +45,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '../api';
 import { useStore } from '../store';
@@ -62,8 +63,16 @@ export default defineComponent({
     const router = useRouter();
     const transRole = ref(user.value?.role);
     const transName = ref(user.value?.name);
+    const contribution = ref(0);
+
+    api.Users.get(user.value?.userId as number)
+      .then((resp) => {
+        contribution.value = resp.data.contribution;
+      });
+
     return {
       user,
+      contribution,
       ROLE,
       logout() {
         store.dispatch(ActionTypes.LOGOUT)

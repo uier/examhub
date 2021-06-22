@@ -18,6 +18,27 @@ const getExamByCourseId = (courseId: number) => {
   const sql = 'SELECT ??, COALESCE(SUM(score),0) AS `score` FROM `document` LEFT JOIN `vote` ON `document`.`docId` = `vote`.`docId` LEFT JOIN `user` ON `document`.`userId` = `user`.`userId` WHERE `courseId` = ? GROUP BY `document`.`docId` ORDER BY `year` DESC, `semester` ASC, `title` ASC';
   return pool.promise().query(sql, [cols, courseId]);
 };
+
+const editExamById = (
+  docId: number,
+  courseId: number,
+  year: number,
+  semester: number,
+  title: string,
+  description: string,
+) => {
+  const newExam = {
+    courseId,
+    year,
+    semester,
+    title,
+    description,
+    lastUpdateTime: dayjs().format(),
+  };
+  const sql = 'UPDATE `document` SET ? WHERE `docId` = ?';
+  return pool.promise().query(sql, [newExam, docId]);
+};
+
 const addExam = async (
   userId: number,
   courseId: number,
@@ -49,5 +70,6 @@ export default {
   getAllExams,
   getExamById,
   addExam,
+  editExamById,
   getExamByCourseId,
 };

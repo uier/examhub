@@ -38,8 +38,8 @@
           <div class="flex flex-col items-center space-y-0.5">
             <ExamDetail :data="tableData[index]" />
             <template v-if="user && user.role <= 1">
-              <ExamForm :populateWith="tableData[index]" @submit="(...args) => $emit('edit-exam', ...args)" />
-              <button type="button" class="text-rose-900 text-base" @click="$emit('delete-exan', docId)">
+              <ExamForm :courses="courses.data" :populateWith="tableData[index]" @submit="(...args) => $emit('edit-exam', ...args)" />
+              <button type="button" class="text-rose-900 text-base" @click="$emit('delete-exam', docId)">
                 刪除
               </button>
             </template>
@@ -57,7 +57,7 @@ import LikeIcon from '../Icon/LikeIcon.vue';
 import DislikeIcon from '../Icon/DislikeIcon.vue';
 
 export default {
-  props: ['tableData', 'user'],
+  props: ['tableData', 'user', 'courses'],
   components: { ExamDetail, ExamForm, LikeIcon, DislikeIcon },
 }
 </script>

@@ -18,6 +18,7 @@ const Exam = {
   get: (id: number): AxiosPromise<Exam.Info> => agent.get(`/exam/${id}`),
   getList: (courseId?: number): AxiosPromise<Exam.ListItem[]> => agent.get('/exam', { params: courseId ? { courseId } : {} }),
   create: (body: Exam.CreateBody): AxiosPromise<number> => agent.post('/exam', body),
+  modify: (id: number, body: Exam.CreateBody): AxiosPromise => agent.patch(`/exam/${id}`, body),
   delete: (id: number): AxiosPromise => agent.delete(`/exam/${id}`),
   vote: (id: number, score: number): AxiosPromise => agent.post(`/exam/${id}/vote`, { score }),
   getVote: (id: number): AxiosPromise<{ score: number }> => agent.get(`/exam/${id}/vote`),

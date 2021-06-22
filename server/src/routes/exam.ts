@@ -71,6 +71,26 @@ router.get('/:docId', async (req, res, next) => {
   }
 });
 
+router.patch('/:docId', isLoggedIn, async (req, res, next) => {
+  try {
+    const { docId } = req.params;
+    const {
+      courseId, year, semester, title, description,
+    } = req.body;
+    const result = await db.exam.getExamById(Number(docId));
+    const [rows] = JSON.parse(JSON.stringify(result));
+    if (rows.length > 0) {
+      await db.exam.editExamById(Number(docId), courseId, year, semester, title, description);
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    res.status(500).json(error);
+    next(error);
+  }
+});
+
 // 還沒有判斷權限（是否是admin or 發布者）
 router.delete('/:docId', isLoggedIn, async (req, res, next) => {
   try {
