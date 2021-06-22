@@ -3,7 +3,7 @@ import { pool } from '.';
 
 const getAllAnnouncements = () => {
   const cols = ['annId', 'userId', 'name', 'title', 'content', 'pinned', 'createTime', 'lastUpdateTime'];
-  const sql = 'SELECT ?? FROM `announcement` inner join (SELECT `userId`, `name` FROM `user`) as U USING (userId)';
+  const sql = 'SELECT ?? FROM `announcement` inner join (SELECT `userId`, `name` FROM `user`) as U USING (userId) ORDER BY `createTime` DESC';
   return pool.promise().query(sql, [cols]);
 };
 
