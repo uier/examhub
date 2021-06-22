@@ -110,13 +110,14 @@
 </template>
 
 <script lang='ts'>
-import { ref, Ref, reactive, defineComponent } from 'vue';
+import { ref, Ref, reactive, defineComponent, computed } from 'vue';
 import {
   Dialog,
   DialogOverlay,
   DialogTitle,
 } from '@headlessui/vue';
 import { XIcon } from '@heroicons/vue/solid';
+import { useStore } from '../../store';
 import TextArea from '../UI/TextArea.vue';
 import CommentItem from '../UI/CommentItem.vue';
 import CommentInput from '../UI/CommentInput.vue';
@@ -147,6 +148,8 @@ export default defineComponent({
     const score = ref(0);
     const isOpenReply = ref([]) as Ref<boolean[]>;
     const isOpen = ref(false);
+    const store = useStore();
+    const user = computed(() => store.state.user);
 
     const fetchData = () => {
       api.Comment.getList(props.data.docId)
@@ -163,12 +166,13 @@ export default defineComponent({
         })
         .catch(() => comments.isError = true)
         .finally(() => comments.isLoading = false);
+
+      if (!user.value) return;
+      api.Exam.getVote(props.data.docId)
+        .then((resp) => score.value = resp.data.score);
     }
 
     fetchData();
-
-    api.Exam.getVote(props.data.docId)
-      .then((resp) => score.value = resp.data.score);
 
     return {
       comments,
@@ -183,6 +187,10 @@ export default defineComponent({
           .catch(() => alert('留言失敗了 QQ'))
       },
       voteExam(scoreValue: number) {
+        if (!user.value) {
+          alert('請先登入！');
+          return;
+        }
         api.Exam.vote(props.data.docId, scoreValue)
           .then(() => score.value = scoreValue === score.value ? 0 : scoreValue)
           .catch(() => alert('評分失敗了 QQ'));

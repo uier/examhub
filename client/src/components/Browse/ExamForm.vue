@@ -87,6 +87,7 @@ import FilePlusIcon from '../Icon/FilePlusIcon.vue';
 import TextField from '../UI/TextField.vue';
 import TextArea from '../UI/TextArea.vue';
 import { useRouter } from 'vue-router';
+import { useStore } from '../../store';
 
 export default {
   name: 'ExamForm',
@@ -118,6 +119,8 @@ export default {
       return props.populateWith.docId ? '編輯' : '新增' + '考古題';
     });
     const router = useRouter();
+    const store = useStore();
+    const user = computed(() => store.state.user);
 
     return {
       btnText,
@@ -141,6 +144,10 @@ export default {
         isOpen.value = false;
       },
       openModal() {
+        if (!user.value) {
+          alert('請先登入！');
+          return;
+        }
         data.value = Object.assign({}, props.populateWith);
         isOpen.value = true;
       },
