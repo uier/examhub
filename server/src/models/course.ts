@@ -1,7 +1,7 @@
 import { pool } from '.';
 
 const getAllcourse = () => {
-  const sql = 'SELECT course.*, COUNT(docId) AS docNum FROM `course` LEFT JOIN `document` ON course.courseId = document.courseId GROUP BY(courseId)'
+  const sql = 'SELECT course.*, COUNT(docId) AS docNum FROM `course` LEFT JOIN `document` ON course.courseId = document.courseId GROUP BY(courseId) ORDER BY `courseName`';
   return pool.promise().query(sql);
 };
 
