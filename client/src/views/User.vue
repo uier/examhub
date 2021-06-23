@@ -45,7 +45,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref, computed, Ref } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '../api';
 import { useStore } from '../store';
@@ -65,10 +65,22 @@ export default defineComponent({
     const transName = ref(user.value?.name);
     const contribution = ref(0);
 
-    api.Users.get(user.value?.userId as number)
-      .then((resp) => {
-        contribution.value = resp.data.contribution;
-      });
+    const fetchData = (userId: number) => {
+      api.Users.get(userId)
+        .then((resp) => {
+          contribution.value = resp.data.contribution;
+        });
+    }
+
+    watch(
+      () => user.value,
+      (value, prevValue) => {
+        if (value) {
+          fetchData(Number(value.userId));
+        }
+      },
+      { immediate: true },
+    )
 
     return {
       user,
