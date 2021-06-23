@@ -50,8 +50,8 @@
               </div>
             </div>
 
-            <div class="mt-2 min-h-screen-2/3">
-              <p class="whitespace-pre-line">{{ data.description }}</p>
+            <div class="mt-2 min-h-screen-2/3 w-full">
+              <p class="break-words whitespace-pre-wrap">{{ data.description }}</p>
             </div>
 
             <div class="mt-4 mb-2 text-gray-500 text-xs">
