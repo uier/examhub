@@ -72,7 +72,7 @@ export default defineComponent({
               ...item,
               rank: topTenScores.indexOf(item.contribution) + 1,
             }))
-            .filter(({ rank }) => rank !== -1);
+            .filter(({ rank }) => rank !== 0);
         })
         .catch(() => ranking.isError = true)
         .finally(() => ranking.isLoading = false);
