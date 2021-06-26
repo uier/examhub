@@ -31,8 +31,8 @@ export default [
   `
   CREATE TABLE if not exists document (
     docId               int not null,
-    courseId            int not null default -1,
-    userId              int not null default -1,
+    courseId            int default null,
+    userId              int default null,
     year                smallint not null,
     semester            tinyint not null,
     title               varchar(64) not null,
@@ -42,35 +42,35 @@ export default [
     folderPath          varchar(1024) not null,
     primary key (docId),
     foreign key (docId) references comment_area(areaId) on update cascade on delete cascade,
-    foreign key (courseId) references course (courseId) on update cascade on delete set default,
-    foreign key (userId) references user (userId) on update cascade on delete set default
+    foreign key (courseId) references course (courseId) on update cascade on delete set null,
+    foreign key (userId) references user (userId) on update cascade on delete set null
   );
   `,
   `
   CREATE TABLE if not exists announcement (
     annId               int not null auto_increment,
-    userId              int not null default -1,
+    userId              int default null,
     title               varchar(64) not null,
     content             varchar(4096) not null default '',
     pinned              bool not null default false,
     createTime          datetime not null,
     lastUpdateTime      datetime not null,
     primary key (annId),
-    foreign key (userId) references user (userId) on update cascade on delete set default
+    foreign key (userId) references user (userId) on update cascade on delete set null
   );
   `,
   `
   CREATE TABLE if not exists comment (
     comId               int not null,
     replyId             int not null,
-    userId              int not null default -1,
+    userId              int default null,
     content             varchar(4096) not null,
     createTime          datetime not null,
     lastUpdateTime      datetime not null,
     primary key (comId),
     foreign key (comId) references comment_area(areaId) on update cascade on delete cascade,
     foreign key (replyId) references comment_area(areaId) on update cascade on delete cascade,
-    foreign key (userId) references user (userId) on update cascade on delete set default
+    foreign key (userId) references user (userId) on update cascade on delete set null
   );
   `,
   `
