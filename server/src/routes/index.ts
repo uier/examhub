@@ -11,7 +11,7 @@ import comment from './comment';
 import course from './course';
 
 const router: Router = Router();
-const swaggerDocPath = path.join(__dirname, 'swagger.yaml');
+const swaggerDocPath = path.join(__dirname, '../config/swagger.yaml');
 const swaggerDocument = YAML.load(swaggerDocPath);
 
 router.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
