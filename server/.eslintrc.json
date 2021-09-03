@@ -2,12 +2,17 @@
     "settings": {
         "import/resolver": {
             "node": {
-                "extensions": [".js", ".ts", ".jsx", ".tsx"]
+                "extensions": [
+                    ".js",
+                    ".ts",
+                    ".jsx",
+                    ".tsx"
+                ]
             }
         }
     },
     "env": {
-        "browser": true,
+        "node": true,
         "es2021": true
     },
     "extends": [
