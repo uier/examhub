@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "9453:9453"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - client-static-files:/static-files
+
+  db:
+    image: mysql:8
+    restart: always
+    env_file: './server/src/config/.env'
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWD
+    volumes:
+      - ./db_config:/etc/mysql
+      - ./db_data:/var/lib/mysql
+
+  client:
+    build:
+      - ./client
+    volumes:
+      - client-static-files:/app/dist
+
+  server:
+    build:
+      - ./server
+    depends_on:
+      - db
