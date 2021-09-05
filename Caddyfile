@@ -1,6 +1,6 @@
-localhost:9453 {
+:8080 {
   reverse_proxy /api/* server:3000
 
-  root * /static-files
+  root * /client-static-files
   file_server
 }
