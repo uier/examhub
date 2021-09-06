@@ -37,9 +37,7 @@ const attemptConnection = (sql: string) => {
 export default {
   // initialize db schema with prepared sql queries
   initDB: () => {
-    schema.forEach((s) => {
-      attemptConnection(s)
-    });
+    schema.forEach(attemptConnection);
   },
   // export the models below
   user,
