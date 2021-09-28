@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  caddy:
+    ports:
+      - "80:8080"
+    volumes:
+      - ./Caddyfile.prod:/etc/caddy/Caddyfile
+      - client-static-files:/client-static-files
+
+  client:
+    build:
+      dockerfile: Dockerfile.prod
+    volumes:
+      - client-static-files:/app/dist
+
+  server:
+    build:
+      dockerfile: Dockerfile.prod
+
+volumes:
+  client-static-files:

@@ -14,6 +14,9 @@ oauth2.keys.json
 dist/
 dist-ssr/
 
+# database file
+db_data/
+
 # log
 npm-debug.log
 request.log
