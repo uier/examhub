@@ -1,6 +1,6 @@
 :8080 {
-  reverse_proxy /api/* server:3000
+        reverse_proxy /api/* server:3000
 
-  root * /client-static-files
-  file_server
+        root * /client-static-files
+        file_server
 }
