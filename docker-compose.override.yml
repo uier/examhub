@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  caddy:
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./Caddyfile.dev:/etc/caddy/Caddyfile
+
+  client:
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+
+  server:
+    volumes:
+      - ./server:/app
+      - /app/node_modules

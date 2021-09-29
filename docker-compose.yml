@@ -4,11 +4,6 @@ services:
   caddy:
     image: caddy:2
     restart: unless-stopped
-    ports:
-      - "80:8080"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - client-static-files:/client-static-files
 
   db:
     image: mysql:8
@@ -20,13 +15,8 @@ services:
 
   client:
     build: ./client
-    volumes:
-      - client-static-files:/app/dist
 
   server:
     build: ./server
     depends_on:
       - db
-
-volumes:
-  client-static-files:

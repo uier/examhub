@@ -4,6 +4,4 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install
-
-CMD npm run dev
+RUN npm install && npm run build:no-tsc

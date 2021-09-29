@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "start": "nodemon -r dotenv/config src/app.ts dotenv_config_path=./src/config/.env",
+    "start": "nodemon -r dotenv/config ./src/app.ts dotenv_config_path=./src/config/.env",
     "build": "tsc --project ./ && cp -R ./src/config ./dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf ./dist/"
