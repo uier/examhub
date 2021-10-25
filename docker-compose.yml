@@ -7,7 +7,7 @@ services:
 
   db:
     image: mysql:8
-    restart: always
+    restart: unless-stopped
     env_file: ./server/src/config/.env
     command: --secure-file-priv=NULL
     volumes:

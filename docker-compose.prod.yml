@@ -2,11 +2,15 @@ version: '3.8'
 
 services:
   caddy:
+    restart: always
     ports:
       - "80:8080"
     volumes:
       - ./Caddyfile.prod:/etc/caddy/Caddyfile
       - client-static-files:/client-static-files
+
+  db:
+    restart: always
 
   client:
     build:
